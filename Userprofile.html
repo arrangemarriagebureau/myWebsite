@@ -1,0 +1,753 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Account - Marriage Bureau</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #8B1538;
+            --primary-light: #A91B4A;
+            --accent: #D4AF37;
+            --dark: #1a1a1a;
+            --neutral: #666;
+            --light-bg: #F8F9FA;
+            --white: #FFFFFF;
+            --success: #27AE60;
+            --error: #E74C3C;
+            --shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--light-bg);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            color: white;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+        }
+
+        .btn-header {
+            background: rgba(255,255,255,0.2);
+            color: white;
+            padding: 0.6rem 1.5rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            border: 1px solid rgba(255,255,255,0.3);
+        }
+
+        .btn-header:hover {
+            background: var(--accent);
+            color: var(--dark);
+            transform: translateY(-2px);
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        .profile-banner {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            border-radius: 20px;
+            padding: 3rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+            color: white;
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .profile-avatar {
+            width: 120px;
+            height: 120px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 3rem;
+            font-weight: 700;
+            color: var(--primary);
+            flex-shrink: 0;
+        }
+
+        .profile-info {
+            flex: 1;
+        }
+
+        .profile-name {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .profile-email {
+            font-size: 1rem;
+            opacity: 0.9;
+            margin-bottom: 1rem;
+        }
+
+        .profile-stats {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .stat-item {
+            background: rgba(255,255,255,0.2);
+            padding: 0.75rem 1.5rem;
+            border-radius: 10px;
+        }
+
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            opacity: 0.9;
+        }
+
+        .tabs {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 2rem;
+            background: white;
+            padding: 1rem;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            overflow-x: auto;
+        }
+
+        .tab-btn {
+            flex: 1;
+            padding: 0.75rem 1.5rem;
+            border: none;
+            background: transparent;
+            color: var(--neutral);
+            font-weight: 600;
+            cursor: pointer;
+            border-radius: 10px;
+            transition: all 0.3s;
+            white-space: nowrap;
+        }
+
+        .tab-btn:hover {
+            background: var(--light-bg);
+        }
+
+        .tab-btn.active {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid var(--light-bg);
+        }
+
+        .card-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-label {
+            font-weight: 500;
+            color: var(--dark);
+            font-size: 0.9rem;
+        }
+
+        .form-input {
+            padding: 0.75rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-input:disabled {
+            background: var(--light-bg);
+            cursor: not-allowed;
+        }
+
+        .info-box {
+            background: linear-gradient(135deg, rgba(139, 21, 56, 0.05), rgba(212, 175, 55, 0.05));
+            border-left: 4px solid var(--accent);
+            padding: 1.5rem;
+            border-radius: 10px;
+            margin-bottom: 2rem;
+        }
+
+        .info-box-title {
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .info-box-text {
+            color: var(--neutral);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .liked-profiles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .liked-profile-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.3s;
+        }
+
+        .liked-profile-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+
+        .liked-profile-image {
+            height: 280px;
+            overflow: hidden;
+        }
+
+        .liked-profile-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .liked-profile-placeholder {
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: white;
+        }
+
+        .liked-profile-content {
+            padding: 1.5rem;
+        }
+
+        .liked-profile-name {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.75rem;
+        }
+
+        .liked-profile-details {
+            color: var(--neutral);
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .detail-row {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .liked-profile-actions {
+            display: flex;
+            gap: 0.75rem;
+        }
+
+        .btn-view {
+            flex: 1;
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-view:hover {
+            transform: translateY(-2px);
+        }
+
+        .btn-remove {
+            background: white;
+            color: var(--error);
+            padding: 0.75rem;
+            border: 2px solid var(--error);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .btn-remove:hover {
+            background: var(--error);
+            color: white;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--neutral);
+        }
+
+        .empty-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        .toast-container {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .toast {
+            background: white;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            min-width: 300px;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateX(400px); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .toast.success { border-left: 4px solid var(--success); }
+        .toast.error { border-left: 4px solid var(--error); }
+        .toast-icon { font-size: 1.5rem; }
+        .toast-content { flex: 1; }
+        .toast-title { font-weight: 600; margin-bottom: 0.25rem; }
+        .toast-message { font-size: 0.9rem; color: var(--neutral); }
+        .toast-close { background: none; border: none; font-size: 1.5rem; cursor: pointer; color: var(--neutral); }
+
+        @media (max-width: 768px) {
+            .header-container, .container { padding: 1rem; }
+            .profile-banner { flex-direction: column; text-align: center; padding: 2rem; }
+            .profile-stats { justify-content: center; flex-wrap: wrap; }
+            .form-grid { grid-template-columns: 1fr; }
+            .liked-profiles-grid { grid-template-columns: 1fr; }
+            .toast-container { right: 1rem; left: 1rem; }
+            .toast { min-width: auto; }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-container">
+            <a href="index.html" class="logo"><span>💍</span><span>Marriage Bureau</span></a>
+            <div class="header-actions">
+                <a href="profiles.html" class="btn-header">Browse Profiles</a>
+                <a href="index.html" class="btn-header">🏠 Home</a>
+                <button class="btn-header" onclick="handleLogout()">Logout</button>
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="profile-banner">
+            <div class="profile-avatar" id="profileAvatar">U</div>
+            <div class="profile-info">
+                <h1 class="profile-name" id="profileName">User Account</h1>
+                <p class="profile-email" id="profileEmail">user@example.com</p>
+                <div class="profile-stats">
+                    <div class="stat-item">
+                        <div class="stat-number" id="likedCount">0</div>
+                        <div class="stat-label">Liked Profiles</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-number">Active</div>
+                        <div class="stat-label">Account Status</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('account')">👤 Account Details</button>
+            <button class="tab-btn" onclick="switchTab('liked')">❤️ Liked Profiles</button>
+        </div>
+
+        <div id="account" class="tab-content active">
+            <div class="info-box">
+                <div class="info-box-title"><span>ℹ️</span><span>About Profile Creation</span></div>
+                <div class="info-box-text">
+                    Only administrators can create marriage profiles in our system. If you'd like to create a profile, please contact our admin team. You can browse available profiles and save your favorites!
+                </div>
+            </div>
+
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title"><span>👤</span><span>Your Account Information</span></h2>
+                </div>
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label class="form-label">Full Name</label>
+                        <input type="text" class="form-input" id="viewName" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Email Address</label>
+                        <input type="email" class="form-input" id="viewEmail" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Gender</label>
+                        <input type="text" class="form-input" id="viewGender" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Age</label>
+                        <input type="text" class="form-input" id="viewAge" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Phone Number</label>
+                        <input type="text" class="form-input" id="viewPhone" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Account Role</label>
+                        <input type="text" class="form-input" id="viewRole" disabled>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Member Since</label>
+                        <input type="text" class="form-input" id="viewJoinDate" disabled>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="liked" class="tab-content">
+            <div class="card">
+                <div class="card-header">
+                    <h2 class="card-title"><span>❤️</span><span>My Liked Profiles</span></h2>
+                </div>
+                <div id="likedProfilesContainer">
+                    <div style="text-align: center; padding: 3rem;">
+                        <div style="font-size: 2rem; margin-bottom: 1rem;">⏳</div>
+                        <p>Loading liked profiles...</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script>
+        const API_BASE_URL = 'https://backendweb-2-frw4.onrender.com/api';
+        let allProfiles = [];
+        let currentUser = null;
+
+        function getHeaders() {
+            return { 'x-auth-token': sessionStorage.getItem('token') };
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const token = sessionStorage.getItem('token');
+            const isLoggedIn = sessionStorage.getItem('isLoggedIn') === 'true';
+            if (!token || !isLoggedIn) {
+                window.location.href = 'login.html';
+                return;
+            }
+            loadUserAccount();
+        });
+
+        async function loadUserAccount() {
+            try {
+                // First, try to get full user data from backend
+                const response = await fetch(`${API_BASE_URL}/auth/me`, {
+                    headers: getHeaders()
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    currentUser = data.user;
+                    
+                    // Store in session for future use
+                    if (currentUser.fullName) {
+                        sessionStorage.setItem('userName', currentUser.fullName);
+                    }
+                    
+                    updateAccountUI(currentUser);
+                } else {
+                    // If backend endpoint doesn't exist yet, use session data
+                    loadFromSession();
+                }
+            } catch (error) {
+                console.error('Error loading user data:', error);
+                // Fallback to session data
+                loadFromSession();
+            }
+        }
+
+        function loadFromSession() {
+            // Get data from sessionStorage (set during registration/login)
+            const userName = sessionStorage.getItem('userName') || 'User';
+            const userEmail = sessionStorage.getItem('userEmail') || '';
+            const userRole = sessionStorage.getItem('userRole') || 'user';
+            
+            // Create user object from session
+            currentUser = {
+                fullName: userName,
+                email: userEmail,
+                role: userRole,
+                gender: sessionStorage.getItem('userGender') || null,
+                age: sessionStorage.getItem('userAge') || null,
+                phone: sessionStorage.getItem('userPhone') || null
+            };
+            
+            updateAccountUI(currentUser);
+        }
+
+        function updateAccountUI(user) {
+            // Update banner
+            const userName = user.fullName || 'User';
+            const userEmail = user.email || '';
+            
+            document.getElementById('profileName').textContent = userName;
+            document.getElementById('profileEmail').textContent = userEmail;
+            
+            const initials = userName.split(' ').map(n => n[0]).join('').toUpperCase();
+            document.getElementById('profileAvatar').textContent = initials;
+
+            // Update account details
+            document.getElementById('viewName').value = userName;
+            document.getElementById('viewEmail').value = userEmail;
+            document.getElementById('viewGender').value = user.gender || 'Not specified';
+            document.getElementById('viewAge').value = user.age ? `${user.age} years` : 'Not specified';
+            document.getElementById('viewPhone').value = user.phone || 'Not specified';
+            document.getElementById('viewRole').value = user.role === 'admin' ? 'Administrator' : 'User';
+            
+            // Format join date
+            if (user.createdAt) {
+                const joinDate = new Date(user.createdAt).toLocaleDateString('en-US', {
+                    month: 'long',
+                    day: 'numeric',
+                    year: 'numeric'
+                });
+                document.getElementById('viewJoinDate').value = joinDate;
+            } else {
+                document.getElementById('viewJoinDate').value = 'N/A';
+            }
+        }
+
+        function switchTab(tabName) {
+            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            document.getElementById(tabName).classList.add('active');
+            event.currentTarget.classList.add('active');
+            if (tabName === 'liked') loadLikedProfiles();
+        }
+
+        async function loadLikedProfiles() {
+            const container = document.getElementById('likedProfilesContainer');
+            const likedIds = JSON.parse(localStorage.getItem('likedProfiles') || '[]');
+
+            if (likedIds.length === 0) {
+                container.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">💔</div>
+                        <h3>No Liked Profiles Yet</h3>
+                        <p>Start exploring and like profiles you're interested in!</p>
+                        <a href="profiles.html" style="display: inline-block; margin-top: 1rem; padding: 0.75rem 2rem; background: linear-gradient(135deg, var(--primary), var(--primary-light)); color: white; text-decoration: none; border-radius: 10px; font-weight: 600;">Browse Profiles</a>
+                    </div>
+                `;
+                document.getElementById('likedCount').textContent = '0';
+                return;
+            }
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/profiles`);
+                const data = await response.json();
+                allProfiles = data.profiles || data || [];
+                const likedProfiles = allProfiles.filter(profile => likedIds.includes(profile._id));
+
+                if (likedProfiles.length === 0) {
+                    container.innerHTML = `<div class="empty-state"><div class="empty-icon">📭</div><h3>Liked profiles not found</h3><p>Some profiles may have been removed</p></div>`;
+                    return;
+                }
+
+                renderLikedProfiles(likedProfiles);
+                document.getElementById('likedCount').textContent = likedProfiles.length;
+            } catch (error) {
+                console.error('Error:', error);
+                container.innerHTML = `<div class="empty-state"><div class="empty-icon">⚠️</div><h3>Failed to load profiles</h3></div>`;
+            }
+        }
+
+        function renderLikedProfiles(profiles) {
+            const container = document.getElementById('likedProfilesContainer');
+            container.innerHTML = `
+                <div class="liked-profiles-grid">
+                    ${profiles.map(profile => {
+                        const imageUrl = profile.imageUrl || '';
+                        const initials = profile.name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
+                        return `
+                            <div class="liked-profile-card">
+                                <div class="liked-profile-image">
+                                    ${imageUrl ? `<img src="${imageUrl}" alt="${profile.name}">` : `<div class="liked-profile-placeholder">${initials}</div>`}
+                                </div>
+                                <div class="liked-profile-content">
+                                    <h3 class="liked-profile-name">${profile.name}</h3>
+                                    <div class="liked-profile-details">
+                                        <div class="detail-row"><span>👤</span><span>${profile.age} Years, ${profile.gender}</span></div>
+                                        <div class="detail-row"><span>📍</span><span>${profile.location}</span></div>
+                                        <div class="detail-row"><span>💼</span><span>${profile.profession || 'N/A'}</span></div>
+                                    </div>
+                                    <div class="liked-profile-actions">
+                                        <button class="btn-view" onclick="viewProfile('${profile._id}')">👁️ View</button>
+                                        <button class="btn-remove" onclick="removeLike('${profile._id}')">❌</button>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                    }).join('')}
+                </div>
+            `;
+        }
+
+        function viewProfile(profileId) {
+            window.location.href = `profiles.html#${profileId}`;
+        }
+
+        function removeLike(profileId) {
+            let liked = JSON.parse(localStorage.getItem('likedProfiles') || '[]');
+            liked = liked.filter(id => id !== profileId);
+            localStorage.setItem('likedProfiles', JSON.stringify(liked));
+            showToast('success', 'Removed', 'Profile removed from favorites');
+            loadLikedProfiles();
+        }
+
+        function handleLogout() {
+            if (confirm('Are you sure you want to logout?')) {
+                sessionStorage.clear();
+                localStorage.removeItem('likedProfiles');
+                window.location.href = 'login.html';
+            }
+        }
+
+        function showToast(type, title, message) {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+            const icons = { success: '✅', error: '❌' };
+            toast.innerHTML = `
+                <div class="toast-icon">${icons[type]}</div>
+                <div class="toast-content">
+                    <div class="toast-title">${title}</div>
+                    <div class="toast-message">${message}</div>
+                </div>
+                <button class="toast-close" onclick="this.parentElement.remove()">×</button>
+            `;
+            container.appendChild(toast);
+            setTimeout(() => toast.remove(), 4000);
+        }
+    </script>
+</body>
+</html>

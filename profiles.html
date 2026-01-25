@@ -1,0 +1,1201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Browse Profiles - Marriage Bureau</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #8B1538;
+            --primary-light: #A91B4A;
+            --accent: #D4AF37;
+            --dark: #1a1a1a;
+            --neutral: #666;
+            --light-bg: #F8F9FA;
+            --white: #FFFFFF;
+            --success: #27AE60;
+            --error: #E74C3C;
+            --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: var(--light-bg);
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        /* Header */
+        .header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white;
+            padding: 1rem 0;
+            box-shadow: var(--shadow);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .header-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            text-decoration: none;
+            color: white;
+        }
+
+        .logo-icon {
+            font-size: 2rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+
+        .btn-nav {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 0.6rem 1.5rem;
+            border-radius: 25px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-nav:hover {
+            background: var(--accent);
+            color: var(--dark);
+            transform: translateY(-2px);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            color: white;
+            text-align: center;
+            padding: 3rem 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .hero h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .hero p {
+            font-size: 1.1rem;
+            opacity: 0.95;
+        }
+
+        /* Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem 3rem;
+        }
+
+        /* Filters */
+        .filters {
+            background: white;
+            padding: 2rem;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+
+        .filters-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .filters-title {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .btn-reset {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            padding: 0.6rem 1.5rem;
+            border-radius: 25px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .btn-reset:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        .filter-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .filter-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .filter-label {
+            font-weight: 500;
+            color: var(--dark);
+            font-size: 0.9rem;
+        }
+
+        .filter-select {
+            padding: 0.75rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            transition: border-color 0.3s;
+        }
+
+        .filter-select:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        /* Results Info */
+        .results-info {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .results-count {
+            font-size: 1.1rem;
+            color: var(--neutral);
+        }
+
+        .count-number {
+            color: var(--primary);
+            font-weight: 700;
+            font-size: 1.3rem;
+        }
+
+        /* Profiles Grid */
+        .profiles-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        /* Profile Card */
+        .profile-card {
+            background: white;
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            transition: all 0.4s;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .profile-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+        }
+
+        .profile-image {
+            position: relative;
+            height: 320px;
+            overflow: hidden;
+        }
+
+        .profile-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s;
+        }
+
+        .profile-card:hover .profile-image img {
+            transform: scale(1.1);
+        }
+
+        .profile-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 0.4rem 1rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            color: var(--primary);
+        }
+
+        .like-btn {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background: rgba(255, 255, 255, 0.95);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 1.2rem;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .like-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .like-btn.liked {
+            background: var(--error);
+            color: white;
+        }
+
+        .profile-content {
+            padding: 1.5rem;
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .profile-name {
+            font-size: 1.4rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 0.25rem;
+        }
+
+        .profile-id {
+            font-size: 0.8rem;
+            color: var(--neutral);
+            margin-bottom: 1rem;
+        }
+
+        .profile-info {
+            flex: 1;
+            margin-bottom: 1rem;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+            padding: 0.5rem;
+            background: var(--light-bg);
+            border-radius: 8px;
+        }
+
+        .info-icon {
+            font-size: 1.1rem;
+            width: 28px;
+            flex-shrink: 0;
+        }
+
+        .info-text {
+            color: var(--dark);
+            font-size: 0.9rem;
+        }
+
+        .profile-actions {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 0.75rem;
+        }
+
+        .btn-action {
+            padding: 0.75rem 1rem;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 0.9rem;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        .btn-view {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+        }
+
+        .btn-view:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(139, 21, 56, 0.3);
+        }
+
+        .btn-inquiry {
+            background: white;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-inquiry:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 2000;
+            overflow-y: auto;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .modal-content {
+            background: white;
+            border-radius: 20px;
+            max-width: 800px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal-header {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+            padding: 2rem;
+            border-radius: 20px 20px 0 0;
+            position: relative;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: rgba(255, 255, 255, 0.2);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            color: white;
+            font-size: 1.5rem;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .modal-close:hover {
+            background: var(--accent);
+            transform: rotate(90deg);
+        }
+
+        .modal-title {
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .modal-subtitle {
+            opacity: 0.95;
+        }
+
+        .modal-body {
+            padding: 2rem;
+        }
+
+        .detail-section {
+            margin-bottom: 2rem;
+        }
+
+        .section-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: var(--primary);
+            margin-bottom: 1rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 2px solid var(--light-bg);
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+        }
+
+        .detail-item {
+            background: var(--light-bg);
+            padding: 1rem;
+            border-radius: 10px;
+            border-left: 4px solid var(--accent);
+        }
+
+        .detail-label {
+            font-size: 0.85rem;
+            color: var(--neutral);
+            margin-bottom: 0.25rem;
+        }
+
+        .detail-value {
+            font-weight: 600;
+            color: var(--dark);
+        }
+
+        .modal-footer {
+            padding: 1.5rem 2rem;
+            background: var(--light-bg);
+            display: flex;
+            justify-content: flex-end;
+            gap: 1rem;
+        }
+
+        .btn-modal {
+            padding: 0.75rem 2rem;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s;
+        }
+
+        .btn-modal-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            color: white;
+        }
+
+        .btn-modal-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(139, 21, 56, 0.3);
+        }
+
+        .btn-modal-secondary {
+            background: white;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-modal-secondary:hover {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Inquiry Modal */
+        .inquiry-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-label {
+            font-weight: 500;
+            color: var(--dark);
+        }
+
+        .form-input,
+        .form-textarea {
+            padding: 0.75rem;
+            border: 2px solid #ddd;
+            border-radius: 8px;
+            font-family: inherit;
+            font-size: 0.95rem;
+            transition: border-color 0.3s;
+        }
+
+        .form-input:focus,
+        .form-textarea:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+
+        /* Toast */
+        .toast-container {
+            position: fixed;
+            top: 2rem;
+            right: 2rem;
+            z-index: 10000;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .toast {
+            background: white;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            min-width: 300px;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .toast.success {
+            border-left: 4px solid var(--success);
+        }
+
+        .toast.error {
+            border-left: 4px solid var(--error);
+        }
+
+        .toast-icon {
+            font-size: 1.5rem;
+        }
+
+        .toast-content {
+            flex: 1;
+        }
+
+        .toast-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .toast-message {
+            font-size: 0.9rem;
+            color: var(--neutral);
+        }
+
+        .toast-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--neutral);
+        }
+
+        /* Loading */
+        .loading {
+            text-align: center;
+            padding: 3rem;
+        }
+
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 4px solid var(--light-bg);
+            border-top-color: var(--primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: var(--neutral);
+        }
+
+        .empty-icon {
+            font-size: 4rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .header-container {
+                padding: 0 1rem;
+            }
+
+            .container {
+                padding: 0 1rem 2rem;
+            }
+
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .filters {
+                padding: 1.5rem;
+            }
+
+            .filter-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .profiles-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .profile-actions {
+                grid-template-columns: 1fr;
+            }
+
+            .modal-content {
+                margin: 1rem;
+            }
+
+            .modal-header,
+            .modal-body {
+                padding: 1.5rem;
+            }
+
+            .toast-container {
+                right: 1rem;
+                left: 1rem;
+            }
+
+            .toast {
+                min-width: auto;
+            }
+        }
+                .navbar-brand {
+            font-family: 'Cormorant Garamond', serif;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--light-bg) !important;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: all 0.3s;
+            text-decoration: none;
+        }
+
+        .navbar-brand:hover {
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header -->
+    <header class="header">
+        <div class="header-container">
+            <a class="navbar-brand" href="index.html">
+                <span class="brand-icon">💝</span>
+                <span>Arrange Marriage</span>
+            </a>
+            <div class="nav-links">
+                <a href="index.html" class="btn-nav">🏠 Home</a>
+                <a href="Userprofile.html" class="btn-nav">👤 My Profile</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <div class="hero">
+        <h1>Find Your Perfect Match</h1>
+        <p>Browse through verified profiles and connect with compatible partners</p>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Filters -->
+        <div class="filters">
+            <div class="filters-header">
+                <h2 class="filters-title">🔍 Filter Profiles</h2>
+                <button class="btn-reset" onclick="resetFilters()">Reset Filters</button>
+            </div>
+            <div class="filter-grid">
+                <div class="filter-group">
+                    <label class="filter-label">Gender</label>
+                    <select class="filter-select" id="filterGender" onchange="applyFilters()">
+                        <option value="">All</option>
+                        <option value="Male">Male</option>
+                        <option value="Female">Female</option>
+                    </select>
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">Location</label>
+                    <input type="text" class="filter-select" id="filterLocation" placeholder="Enter city..."
+                        onkeyup="applyFilters()">
+                </div>
+                <div class="filter-group">
+                    <label class="filter-label">Profession</label>
+                    <input type="text" class="filter-select" id="filterProfession" placeholder="Enter profession..."
+                        onkeyup="applyFilters()">
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Info -->
+        <div class="results-info">
+            <div class="results-count">
+                Showing <span class="count-number" id="profileCount">0</span> profiles
+            </div>
+        </div>
+
+        <!-- Profiles Grid -->
+        <div class="profiles-grid" id="profilesGrid">
+            <div class="loading">
+                <div class="spinner"></div>
+                <p>Loading profiles...</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Profile Detail Modal -->
+    <div class="modal" id="profileModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="modal-close" onclick="closeModal('profileModal')">×</button>
+                <h2 class="modal-title" id="modalProfileName"></h2>
+                <p class="modal-subtitle" id="modalProfileSubtitle"></p>
+            </div>
+            <div class="modal-body" id="modalBody"></div>
+            <div class="modal-footer">
+                <button class="btn-modal btn-modal-secondary" onclick="closeModal('profileModal')">Close</button>
+                <button class="btn-modal btn-modal-primary" onclick="openInquiryModal()">Send Inquiry</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Inquiry Modal -->
+    <div class="modal" id="inquiryModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button class="modal-close" onclick="closeModal('inquiryModal')">×</button>
+                <h2 class="modal-title">Send Inquiry</h2>
+                <p class="modal-subtitle">Contact admin about this profile</p>
+            </div>
+            <div class="modal-body">
+                <form class="inquiry-form" id="inquiryForm" onsubmit="submitInquiry(event)">
+                    <div class="form-group">
+                        <label class="form-label">Your Name *</label>
+                        <input type="text" class="form-input" id="inquiryName" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Your Email *</label>
+                        <input type="email" class="form-input" id="inquiryEmail" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Your Phone *</label>
+                        <input type="tel" class="form-input" id="inquiryPhone" required>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Message *</label>
+                        <textarea class="form-textarea" id="inquiryMessage" placeholder="Write your message to admin..."
+                            required></textarea>
+                    </div>
+                    <div class="modal-footer" style="padding: 0; background: none;">
+                        <button type="button" class="btn-modal btn-modal-secondary"
+                            onclick="closeModal('inquiryModal')">Cancel</button>
+                        <button type="submit" class="btn-modal btn-modal-primary">Send Inquiry</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Container -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <script>
+        // Configuration
+        const API_BASE_URL = 'https://backendweb-2-frw4.onrender.com/api';
+
+        // Global State
+        let allProfiles = [];
+        let currentProfile = null;
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            // Check authentication
+            const isLoggedIn = sessionStorage.getItem('isLoggedIn') === 'true';
+            if (!isLoggedIn) {
+                showToast('error', 'Not Logged In', 'Please login to view profiles');
+                setTimeout(() => {
+                    window.location.href = 'login.html';
+                }, 2000);
+                return;
+            }
+
+            // Pre-fill inquiry form with user data
+            const userName = sessionStorage.getItem('userName') || '';
+            const userEmail = sessionStorage.getItem('userEmail') || '';
+            if (userName) document.getElementById('inquiryName').value = userName;
+            if (userEmail) document.getElementById('inquiryEmail').value = userEmail;
+
+            // Load profiles
+            fetchProfiles();
+        });
+
+        // Fetch Profiles from Backend
+        async function fetchProfiles() {
+            const grid = document.getElementById('profilesGrid');
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/profiles`);
+                const data = await response.json();
+
+                allProfiles = data.profiles || data || [];
+
+                if (allProfiles.length === 0) {
+                    grid.innerHTML = `
+                        <div class="empty-state">
+                            <div class="empty-icon">📭</div>
+                            <h3>No Profiles Found</h3>
+                            <p>Check back later for new profiles</p>
+                        </div>
+                    `;
+                    return;
+                }
+
+                renderProfiles(allProfiles);
+                loadLikedProfiles();
+            } catch (error) {
+                console.error('Error fetching profiles:', error);
+                grid.innerHTML = `
+                    <div class="empty-state">
+                        <div class="empty-icon">⚠️</div>
+                        <h3>Failed to Load Profiles</h3>
+                        <p>Please refresh the page or try again later</p>
+                    </div>
+                `;
+            }
+        }
+
+        // Render Profiles
+        function renderProfiles(profiles) {
+            const grid = document.getElementById('profilesGrid');
+            grid.innerHTML = '';
+
+            profiles.forEach(profile => {
+                const card = document.createElement('div');
+                card.className = 'profile-card-wrapper';
+                card.setAttribute('data-gender', profile.gender || '');
+                card.setAttribute('data-location', profile.location || '');
+                card.setAttribute('data-profession', profile.profession || '');
+
+                const imageUrl = profile.imageUrl || 'https://via.placeholder.com/400x500?text=No+Photo';
+                const profileId = profile._id.substring(0, 8).toUpperCase();
+
+                card.innerHTML = `
+                    <div class="profile-card">
+                        <div class="profile-image">
+                            <img src="${imageUrl}" alt="${profile.name}">
+                            <button class="like-btn" onclick="toggleLike('${profile._id}')" data-id="${profile._id}">
+                                ❤️
+                            </button>
+                            ${profile.isPremium ? '<div class="profile-badge">⭐ Premium</div>' : ''}
+                            ${profile.isVerified ? '<div class="profile-badge">✓ Verified</div>' : ''}
+                        </div>
+                        <div class="profile-content">
+                            <h3 class="profile-name">${profile.name}</h3>
+                            <p class="profile-id">ID: ${profileId}</p>
+                            <div class="profile-info">
+                                <div class="info-item">
+                                    <span class="info-icon">👤</span>
+                                    <span class="info-text">${profile.age} Years, ${profile.gender}</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-icon">📍</span>
+                                    <span class="info-text">${profile.location}</span>
+                                </div>
+                                <div class="info-item">
+                                    <span class="info-icon">💼</span>
+                                    <span class="info-text">${profile.profession || 'N/A'}</span>
+                                </div>
+                            </div>
+                            <div class="profile-actions">
+                                <button class="btn-action btn-view" onclick='viewProfile(${JSON.stringify(profile).replace(/'/g, "&apos;")})'>
+                                    👁️ View Details
+                                </button>
+                                <button class="btn-action btn-inquiry" onclick='openInquiryForProfile(${JSON.stringify(profile).replace(/'/g, "&apos;")})'>
+                                    💌 Inquire
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                `;
+
+                grid.appendChild(card);
+            });
+
+            document.getElementById('profileCount').textContent = profiles.length;
+        }
+
+        // View Profile Details
+        function viewProfile(profile) {
+            currentProfile = profile;
+
+            document.getElementById('modalProfileName').textContent = profile.name;
+            document.getElementById('modalProfileSubtitle').textContent = `${profile.age} Years • ${profile.profession || 'N/A'} • ${profile.location}`;
+
+            const bodyHTML = `
+                <div class="detail-section">
+                    <h3 class="section-title">📝 About</h3>
+                    <p>${profile.bio || 'No description provided.'}</p>
+                </div>
+                
+                <div class="detail-section">
+                    <h3 class="section-title">ℹ️ Profile Details</h3>
+                    <div class="detail-grid">
+                        <div class="detail-item">
+                            <div class="detail-label">Gender</div>
+                            <div class="detail-value">${profile.gender}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Age</div>
+                            <div class="detail-value">${profile.age} Years</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Location</div>
+                            <div class="detail-value">${profile.location}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Height</div>
+                            <div class="detail-value">${profile.height || 'N/A'}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Education</div>
+                            <div class="detail-value">${profile.education || 'N/A'}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Profession</div>
+                            <div class="detail-value">${profile.profession || 'N/A'}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">Income</div>
+                            <div class="detail-value">${profile.income || 'Not Disclosed'}</div>
+                        </div>
+                    </div>
+                </div>
+            `;
+
+            document.getElementById('modalBody').innerHTML = bodyHTML;
+            openModal('profileModal');
+        }
+
+        // Toggle Like
+        function toggleLike(profileId) {
+            let liked = JSON.parse(localStorage.getItem('likedProfiles') || '[]');
+            const btn = document.querySelector(`.like-btn[data-id="${profileId}"]`);
+
+            if (liked.includes(profileId)) {
+                liked = liked.filter(id => id !== profileId);
+                btn.classList.remove('liked');
+                showToast('info', 'Removed', 'Removed from favorites');
+            } else {
+                liked.push(profileId);
+                btn.classList.add('liked');
+                showToast('success', 'Added', 'Added to favorites');
+            }
+
+            localStorage.setItem('likedProfiles', JSON.stringify(liked));
+        }
+
+        // Load Liked Profiles
+        function loadLikedProfiles() {
+            const liked = JSON.parse(localStorage.getItem('likedProfiles') || '[]');
+            liked.forEach(id => {
+                const btn = document.querySelector(`.like-btn[data-id="${id}"]`);
+                if (btn) btn.classList.add('liked');
+            });
+        }
+
+        // Open Inquiry Modal
+        function openInquiryForProfile(profile) {
+            currentProfile = profile;
+            openModal('inquiryModal');
+        }
+
+        function openInquiryModal() {
+            closeModal('profileModal');
+            openModal('inquiryModal');
+        }
+
+        // Submit Inquiry
+        async function submitInquiry(event) {
+            event.preventDefault();
+
+            if (!currentProfile) {
+                showToast('error', 'Error', 'No profile selected');
+                return;
+            }
+
+            const inquiryData = {
+                profileId: currentProfile._id,
+                profileName: currentProfile.name,
+                userName: document.getElementById('inquiryName').value,
+                userEmail: document.getElementById('inquiryEmail').value,
+                userPhone: document.getElementById('inquiryPhone').value,
+                message: document.getElementById('inquiryMessage').value
+            };
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/inquiries`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'x-auth-token': sessionStorage.getItem('token')
+                    },
+                    body: JSON.stringify(inquiryData)
+                });
+
+                const data = await response.json();
+
+                if (response.ok && data.success) {
+                    showToast('success', 'Inquiry Sent!', 'Admin will contact you soon');
+                    closeModal('inquiryModal');
+                    document.getElementById('inquiryForm').reset();
+
+                    // Pre-fill user data again
+                    const userName = sessionStorage.getItem('userName') || '';
+                    const userEmail = sessionStorage.getItem('userEmail') || '';
+                    if (userName) document.getElementById('inquiryName').value = userName;
+                    if (userEmail) document.getElementById('inquiryEmail').value = userEmail;
+                } else {
+                    showToast('error', 'Error', data.msg || 'Failed to send inquiry');
+                }
+            } catch (error) {
+                console.error('Error submitting inquiry:', error);
+                showToast('error', 'Error', 'Failed to send inquiry. Please try again.');
+            }
+        }
+
+        // Apply Filters
+        function applyFilters() {
+            const gender = document.getElementById('filterGender').value.toLowerCase();
+            const location = document.getElementById('filterLocation').value.toLowerCase();
+            const profession = document.getElementById('filterProfession').value.toLowerCase();
+
+            const cards = document.querySelectorAll('.profile-card-wrapper');
+            let visibleCount = 0;
+
+            cards.forEach(card => {
+                const cardGender = card.getAttribute('data-gender').toLowerCase();
+                const cardLocation = card.getAttribute('data-location').toLowerCase();
+                const cardProfession = card.getAttribute('data-profession').toLowerCase();
+
+                const matchGender = !gender || cardGender === gender;
+                const matchLocation = !location || cardLocation.includes(location);
+                const matchProfession = !profession || cardProfession.includes(profession);
+
+                if (matchGender && matchLocation && matchProfession) {
+                    card.style.display = 'block';
+                    visibleCount++;
+                } else {
+                    card.style.display = 'none';
+                }
+            });
+
+            document.getElementById('profileCount').textContent = visibleCount;
+        }
+
+        // Reset Filters
+        function resetFilters() {
+            document.getElementById('filterGender').value = '';
+            document.getElementById('filterLocation').value = '';
+            document.getElementById('filterProfession').value = '';
+            applyFilters();
+            showToast('info', 'Filters Reset', 'Showing all profiles');
+        }
+
+        // Modal Functions
+        function openModal(modalId) {
+            document.getElementById(modalId).classList.add('active');
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).classList.remove('active');
+        }
+
+        // Toast Notifications
+        function showToast(type, title, message) {
+            const container = document.getElementById('toastContainer');
+            const toast = document.createElement('div');
+            toast.className = `toast ${type}`;
+
+            const icons = {
+                success: '✅',
+                error: '❌',
+                info: 'ℹ️'
+            };
+
+            toast.innerHTML = `
+                <div class="toast-icon">${icons[type]}</div>
+                <div class="toast-content">
+                    <div class="toast-title">${title}</div>
+                    <div class="toast-message">${message}</div>
+                </div>
+                <button class="toast-close" onclick="this.parentElement.remove()">×</button>
+            `;
+
+            container.appendChild(toast);
+            setTimeout(() => toast.remove(), 4000);
+        }
+
+        // Close modals on outside click
+        window.onclick = function (event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.classList.remove('active');
+            }
+        }
+    </script>
+
+</body>
+
+</html>
