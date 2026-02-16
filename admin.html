@@ -1,10 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Admin Dashboard - Marriage Bureau</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
     <style>
         * {
             margin: 0;
@@ -14,146 +17,560 @@
 
         :root {
             --primary: #8B1538;
+            --primary-dark: #6B1029;
             --primary-light: #A91B4A;
             --accent: #D4AF37;
-            --dark: #1a1a1a;
-            --neutral: #666;
-            --light-bg: #F8F9FA;
+            --accent-light: #E5C758;
+            --rose: #E91E63;
+            --rose-light: #F8BBD0;
+            --success: #2e7d32;
+            --error: #c62828;
+            --warning: #f57c00;
+            --dark: #2c1810;
+            --neutral: #6B5B54;
+            --light: #FFF8F5;
             --white: #FFFFFF;
-            --success: #27AE60;
-            --warning: #F39C12;
-            --error: #E74C3C;
-            --shadow: 0 2px 10px rgba(0,0,0,0.1);
+            --cream: #FAF6F3;
+            --border: #E8DDD8;
+            --sidebar-bg: linear-gradient(180deg, #8B1538 0%, #6B1029 100%);
+            --shadow-sm: 0 1px 2px 0 rgba(139, 21, 56, 0.05);
+            --shadow: 0 2px 8px 0 rgba(139, 21, 56, 0.1);
+            --shadow-lg: 0 10px 30px -5px rgba(139, 21, 56, 0.15);
+            --shadow-xl: 0 20px 40px -10px rgba(139, 21, 56, 0.2);
         }
 
         body {
-            font-family: 'Poppins', sans-serif;
-            background: var(--light-bg);
+            font-family: 'Inter', -apple-system, sans-serif;
+            background: var(--light);
             color: var(--dark);
             line-height: 1.6;
+            overflow-x: hidden;
         }
 
-        /* Header */
-        .header {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-            color: white;
-            padding: 1rem 0;
-            box-shadow: var(--shadow);
-            position: sticky;
-            top: 0;
-            z-index: 1000;
-        }
-
-        .header-container {
-            max-width: 1400px;
-            margin: 0 auto;
-            padding: 0 2rem;
+        .app-container {
             display: flex;
-            justify-content: space-between;
-            align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
+            min-height: 100vh;
+        }
+
+        /* Sidebar */
+        .sidebar {
+            width: 280px;
+            background: var(--sidebar-bg);
+            color: white;
+            position: fixed;
+            height: 100vh;
+            left: 0;
+            top: 0;
+            overflow-y: auto;
+            z-index: 1000;
+            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 4px 0 20px rgba(139, 21, 56, 0.2);
+        }
+
+        .sidebar.collapsed {
+            transform: translateX(-280px);
+        }
+
+        .sidebar::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .sidebar::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .sidebar::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 3px;
+        }
+
+        .sidebar-header {
+            padding: 2rem 1.5rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            background: rgba(0, 0, 0, 0.1);
         }
 
         .logo {
-            font-size: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.875rem;
+            font-family: 'Playfair Display', serif;
+            font-size: 1.375rem;
             font-weight: 700;
+            color: white;
+        }
+
+        .logo-icon {
+            width: 48px;
+            height: 48px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            box-shadow: 0 4px 12px rgba(212, 175, 55, 0.4);
+        }
+
+        .sidebar-nav {
+            padding: 1.5rem 0;
+        }
+
+        .nav-section {
+            margin-bottom: 2rem;
+        }
+
+        .nav-section-title {
+            padding: 0 1.5rem;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: rgba(255, 255, 255, 0.5);
+            margin-bottom: 0.75rem;
+        }
+
+        .nav-item {
+            padding: 0.875rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9375rem;
+            font-weight: 500;
+            border-left: 3px solid transparent;
+            position: relative;
+        }
+
+        .nav-item::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 0;
+            background: rgba(255, 255, 255, 0.1);
+            transition: width 0.3s;
+        }
+
+        .nav-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+
+        .nav-item:hover::before {
+            width: 100%;
+        }
+
+        .nav-item.active {
+            background: rgba(212, 175, 55, 0.2);
+            color: var(--accent-light);
+            border-left-color: var(--accent);
+            font-weight: 600;
+        }
+
+        .nav-icon {
+            font-size: 1.375rem;
+            width: 28px;
+            text-align: center;
+        }
+
+        .nav-badge {
+            margin-left: auto;
+            background: var(--rose);
+            color: white;
+            font-size: 0.7rem;
+            font-weight: 700;
+            padding: 0.2rem 0.5rem;
+            border-radius: 10px;
+            min-width: 22px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(233, 30, 99, 0.4);
+        }
+
+        .sidebar-footer {
+            padding: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            margin-top: auto;
+            background: rgba(0, 0, 0, 0.15);
+        }
+
+        .admin-card {
+            display: flex;
+            align-items: center;
+            gap: 0.875rem;
+            padding: 0.875rem;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .admin-card:hover {
+            background: rgba(255, 255, 255, 0.15);
+            transform: translateY(-2px);
+        }
+
+        .admin-avatar {
+            width: 44px;
+            height: 44px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-light));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--dark);
+            box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+        }
+
+        .admin-info {
+            flex: 1;
+        }
+
+        .admin-name {
+            font-weight: 600;
+            font-size: 0.9375rem;
+            color: white;
+        }
+
+        .admin-role {
+            font-size: 0.75rem;
+            color: rgba(255, 255, 255, 0.6);
+        }
+
+        .logout-icon {
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 1.25rem;
+        }
+
+        /* Mobile Toggle */
+        .mobile-header {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 60px;
+            background: var(--white);
+            border-bottom: 1px solid var(--border);
+            z-index: 999;
+            padding: 0 1rem;
+            align-items: center;
+            gap: 1rem;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .mobile-toggle {
+            background: var(--primary);
+            color: white;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+            box-shadow: var(--shadow);
+        }
+
+        .mobile-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary);
             display: flex;
             align-items: center;
             gap: 0.5rem;
         }
 
-        .logo-icon {
-            font-size: 2rem;
+        .sidebar-overlay {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            backdrop-filter: blur(2px);
         }
 
-        .admin-info {
+        .sidebar-overlay.active {
+            display: block;
+        }
+
+        /* Main Content */
+        .main-content {
+            flex: 1;
+            margin-left: 280px;
+            min-height: 100vh;
+            background: var(--light);
+            transition: margin-left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .main-content.expanded {
+            margin-left: 0;
+        }
+
+        /* Topbar */
+        .topbar {
+            background: var(--white);
+            border-bottom: 2px solid var(--border);
+            padding: 1.25rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: var(--shadow-sm);
+        }
+
+        .topbar-left {
+            display: flex;
+            flex-direction: column;
+            gap: 0.375rem;
+        }
+
+        .page-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--primary);
             display: flex;
             align-items: center;
-            gap: 1.5rem;
+            gap: 0.625rem;
         }
 
-        .admin-profile {
+        .breadcrumb {
             display: flex;
             align-items: center;
-            gap: 0.75rem;
-            background: rgba(255,255,255,0.1);
-            padding: 0.5rem 1rem;
-            border-radius: 50px;
+            gap: 0.5rem;
+            font-size: 0.875rem;
+            color: var(--neutral);
         }
 
-        .admin-avatar {
-            width: 40px;
-            height: 40px;
-            background: var(--accent);
+        .breadcrumb-separator {
+            color: var(--border);
+        }
+
+        .topbar-right {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .search-box {
+            position: relative;
+        }
+
+        .search-input {
+            padding: 0.75rem 1rem 0.75rem 3rem;
+            border: 2px solid var(--border);
+            border-radius: 25px;
+            font-size: 0.875rem;
+            width: 320px;
+            transition: all 0.3s;
+            background: var(--cream);
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: var(--white);
+            box-shadow: 0 0 0 4px rgba(139, 21, 56, 0.1);
+        }
+
+        .search-icon {
+            position: absolute;
+            left: 1.125rem;
+            top: 50%;
+            transform: translateY(-50%);
+            color: var(--neutral);
+            font-size: 1.125rem;
+        }
+
+        .topbar-actions {
+            display: flex;
+            gap: 0.625rem;
+        }
+
+        .icon-btn {
+            width: 44px;
+            height: 44px;
             border-radius: 50%;
+            border: 2px solid var(--border);
+            background: var(--white);
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 600;
-            color: var(--dark);
-        }
-
-        .admin-name {
-            font-weight: 500;
-            font-size: 0.95rem;
-        }
-
-        .btn-logout {
-            background: rgba(255,255,255,0.2);
-            border: 1px solid rgba(255,255,255,0.3);
-            color: white;
-            padding: 0.5rem 1.5rem;
-            border-radius: 8px;
             cursor: pointer;
-            font-weight: 500;
-            transition: all 0.3s;
+            transition: all 0.2s;
+            position: relative;
+            font-size: 1.125rem;
         }
 
-        .btn-logout:hover {
-            background: rgba(255,255,255,0.3);
+        .icon-btn:hover {
+            background: var(--cream);
+            border-color: var(--primary);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
         }
 
-        /* Main Container */
-        .container {
-            max-width: 1400px;
-            margin: 2rem auto;
-            padding: 0 2rem;
+        .icon-btn .badge {
+            position: absolute;
+            top: -4px;
+            right: -4px;
+            background: var(--rose);
+            color: white;
+            font-size: 0.65rem;
+            font-weight: 700;
+            padding: 0.15rem 0.4rem;
+            border-radius: 10px;
+            min-width: 20px;
+            text-align: center;
+            box-shadow: 0 2px 8px rgba(233, 30, 99, 0.4);
         }
 
-        /* Statistics Cards */
+        /* Content Area */
+        .content {
+            padding: 2rem;
+        }
+
+        /* Welcome Banner */
+        .welcome-banner {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 50%, var(--rose) 100%);
+            color: white;
+            padding: 2.5rem;
+            border-radius: 20px;
+            margin-bottom: 2rem;
+            box-shadow: var(--shadow-xl);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .welcome-banner::before {
+            content: '💕';
+            position: absolute;
+            font-size: 20rem;
+            opacity: 0.05;
+            top: -5rem;
+            right: -5rem;
+            animation: float 6s ease-in-out infinite;
+        }
+
+        .welcome-banner::after {
+            content: '💍';
+            position: absolute;
+            font-size: 15rem;
+            opacity: 0.05;
+            bottom: -4rem;
+            left: -3rem;
+            animation: float 8s ease-in-out infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-20px) rotate(5deg);
+            }
+        }
+
+        .welcome-content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .welcome-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.625rem;
+        }
+
+        .welcome-subtitle {
+            font-size: 1.0625rem;
+            opacity: 0.95;
+        }
+
+        /* Stats Grid */
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
             gap: 1.5rem;
             margin-bottom: 2rem;
         }
 
         .stat-card {
-            background: white;
-            padding: 1.5rem;
-            border-radius: 12px;
-            box-shadow: var(--shadow);
+            background: var(--white);
+            padding: 2rem;
+            border-radius: 20px;
+            border: 2px solid var(--border);
             display: flex;
-            align-items: center;
+            align-items: flex-start;
             gap: 1.5rem;
-            transition: transform 0.3s;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .stat-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 5px;
+            height: 100%;
+            background: linear-gradient(180deg, var(--primary), var(--rose));
+            opacity: 0;
+            transition: opacity 0.3s;
         }
 
         .stat-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-xl);
+            border-color: var(--primary-light);
+        }
+
+        .stat-card:hover::before {
+            opacity: 1;
         }
 
         .stat-icon {
-            width: 60px;
-            height: 60px;
-            background: linear-gradient(135deg, var(--primary), var(--primary-light));
-            border-radius: 12px;
+            width: 64px;
+            height: 64px;
+            border-radius: 16px;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 1.8rem;
+            font-size: 2rem;
+            flex-shrink: 0;
+            box-shadow: var(--shadow);
+        }
+
+        .stat-icon.couples {
+            background: linear-gradient(135deg, #8B1538 0%, #A91B4A 100%);
+        }
+
+        .stat-icon.verified {
+            background: linear-gradient(135deg, #2e7d32 0%, #4caf50 100%);
+        }
+
+        .stat-icon.users {
+            background: linear-gradient(135deg, #1565c0 0%, #42a5f5 100%);
+        }
+
+        .stat-icon.requests {
+            background: linear-gradient(135deg, #f57c00 0%, #ffa726 100%);
         }
 
         .stat-content {
@@ -161,91 +578,70 @@
         }
 
         .stat-label {
+            font-size: 0.875rem;
             color: var(--neutral);
-            font-size: 0.85rem;
-            margin-bottom: 0.25rem;
-        }
-
-        .stat-number {
-            font-size: 2rem;
-            font-weight: 700;
-            color: var(--dark);
-        }
-
-        /* Navigation Tabs */
-        .tabs {
-            display: flex;
-            gap: 1rem;
-            margin-bottom: 2rem;
-            background: white;
-            padding: 1rem;
-            border-radius: 12px;
-            box-shadow: var(--shadow);
-            overflow-x: auto;
-        }
-
-        .tab-btn {
-            background: transparent;
-            border: none;
-            padding: 0.75rem 1.5rem;
-            border-radius: 8px;
-            cursor: pointer;
+            margin-bottom: 0.625rem;
             font-weight: 500;
-            font-size: 0.95rem;
-            color: var(--neutral);
-            transition: all 0.3s;
-            white-space: nowrap;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
         }
 
-        .tab-btn:hover {
-            background: var(--light-bg);
-        }
-
-        .tab-btn.active {
-            background: linear-gradient(135deg, var(--primary), var(--primary-light));
-            color: white;
-        }
-
-        .tab-icon {
-            font-size: 1.2rem;
-        }
-
-        /* Tab Content */
-        .tab-content {
-            display: none;
-        }
-
-        .tab-content.active {
-            display: block;
-        }
-
-        /* Section */
-        .section {
-            background: white;
-            border-radius: 12px;
-            padding: 2rem;
-            box-shadow: var(--shadow);
-        }
-
-        .section-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-            flex-wrap: wrap;
-            gap: 1rem;
-        }
-
-        .section-title {
-            font-size: 1.5rem;
-            font-weight: 600;
+        .stat-value {
+            font-family: 'Playfair Display', serif;
+            font-size: 2.5rem;
+            font-weight: 800;
             color: var(--dark);
+            line-height: 1;
+            margin-bottom: 0.625rem;
+        }
+
+        .stat-change {
+            font-size: 0.8125rem;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.25rem;
+            padding: 0.3rem 0.75rem;
+            border-radius: 20px;
+            font-weight: 600;
+        }
+
+        .stat-change.positive {
+            background: #d1f4e0;
+            color: #1e8449;
+        }
+
+        /* Card */
+        .card {
+            background: var(--white);
+            border-radius: 20px;
+            border: 2px solid var(--border);
+            overflow: hidden;
+            box-shadow: var(--shadow);
+            margin-bottom: 2rem;
+        }
+
+        .card-header {
+            padding: 1.75rem 2rem;
+            border-bottom: 2px solid var(--border);
+            background: linear-gradient(to bottom, var(--white), var(--cream));
+        }
+
+        .card-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--primary);
             display: flex;
             align-items: center;
-            gap: 0.75rem;
+            gap: 0.875rem;
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 0.875rem;
+            margin-top: 1rem;
+        }
+
+        .card-body {
+            padding: 2rem;
         }
 
         /* Table */
@@ -258,22 +654,37 @@
             border-collapse: collapse;
         }
 
-        th, td {
-            text-align: left;
-            padding: 1rem;
-            border-bottom: 1px solid #eee;
+        thead {
+            background: var(--cream);
         }
 
         th {
-            background: var(--light-bg);
-            font-weight: 600;
+            text-align: left;
+            padding: 1.125rem 1.5rem;
+            font-weight: 700;
+            font-size: 0.8125rem;
+            text-transform: uppercase;
             color: var(--dark);
-            position: sticky;
-            top: 0;
+            letter-spacing: 0.05em;
+            border-bottom: 2px solid var(--border);
         }
 
-        tr:hover {
-            background: #fafafa;
+        td {
+            padding: 1.375rem 1.5rem;
+            border-bottom: 1px solid var(--border);
+            font-size: 0.9375rem;
+        }
+
+        tbody tr {
+            transition: all 0.2s;
+        }
+
+        tbody tr:hover {
+            background: var(--cream);
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
         }
 
         .user-cell {
@@ -283,17 +694,19 @@
         }
 
         .user-avatar {
-            width: 45px;
-            height: 45px;
-            border-radius: 50%;
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
             object-fit: cover;
-            background: var(--accent);
+            background: linear-gradient(135deg, var(--primary-light), var(--rose));
             display: flex;
             align-items: center;
             justify-content: center;
-            font-weight: 600;
+            font-weight: 700;
             color: white;
+            font-size: 1rem;
             flex-shrink: 0;
+            box-shadow: var(--shadow);
         }
 
         .user-info {
@@ -303,44 +716,50 @@
         }
 
         .user-name {
-            font-weight: 500;
+            font-weight: 600;
             color: var(--dark);
         }
 
         .user-email {
-            font-size: 0.85rem;
+            font-size: 0.8125rem;
             color: var(--neutral);
         }
 
-        /* Status Badge */
-        .status-badge {
+        /* Badge */
+        .badge {
             display: inline-flex;
             align-items: center;
-            gap: 0.5rem;
-            padding: 0.4rem 1rem;
+            gap: 0.375rem;
+            padding: 0.4rem 0.875rem;
             border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 500;
+            font-size: 0.8125rem;
+            font-weight: 600;
+            line-height: 1;
         }
 
-        .status-badge.active {
-            background: #d4edda;
-            color: #155724;
+        .badge.success {
+            background: #d1f4e0;
+            color: #1e8449;
         }
 
-        .status-badge.inactive {
-            background: #f8d7da;
-            color: #721c24;
-        }
-
-        .status-badge.pending {
+        .badge.pending {
             background: #fff3cd;
-            color: #856404;
+            color: #f57c00;
         }
 
-        .status-dot {
-            width: 8px;
-            height: 8px;
+        .badge.error {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        .badge.info {
+            background: #e3f2fd;
+            color: #1565c0;
+        }
+
+        .badge-dot {
+            width: 7px;
+            height: 7px;
             border-radius: 50%;
             background: currentColor;
         }
@@ -349,117 +768,223 @@
         .action-btns {
             display: flex;
             gap: 0.5rem;
+            flex-wrap: wrap;
         }
 
         .btn-action {
-            padding: 0.5rem 1rem;
-            border: none;
-            border-radius: 6px;
+            padding: 0.625rem;
+            border: 2px solid var(--border);
+            background: var(--white);
+            border-radius: 10px;
             cursor: pointer;
-            font-size: 0.85rem;
-            font-weight: 500;
-            transition: all 0.3s;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 40px;
+            height: 40px;
+            font-size: 1rem;
         }
 
-        .btn-view {
+        .btn-action:hover {
+            transform: translateY(-2px);
+            box-shadow: var(--shadow);
+        }
+
+        .btn-action.view:hover {
             background: #e3f2fd;
-            color: #1976d2;
+            border-color: #1565c0;
         }
 
-        .btn-view:hover {
-            background: #1976d2;
-            color: white;
+        .btn-action.edit:hover {
+            background: #fff3cd;
+            border-color: #f57c00;
         }
 
-        .btn-edit {
-            background: #fff3e0;
-            color: #f57c00;
-        }
-
-        .btn-edit:hover {
-            background: #f57c00;
-            color: white;
-        }
-
-        .btn-delete {
+        .btn-action.delete:hover {
             background: #ffebee;
-            color: #c62828;
+            border-color: #c62828;
         }
 
-        .btn-delete:hover {
-            background: #c62828;
-            color: white;
-        }
-
-        .btn-toggle {
-            background: #e8f5e9;
-            color: #2e7d32;
-        }
-
-        .btn-toggle:hover {
-            background: #2e7d32;
-            color: white;
+        .btn-action.approve:hover {
+            background: #d1f4e0;
+            border-color: #2e7d32;
         }
 
         /* Form */
         .form-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 1.5rem;
-            margin-bottom: 1.5rem;
         }
 
         .form-group {
             display: flex;
             flex-direction: column;
-            gap: 0.5rem;
+            gap: 0.625rem;
         }
 
         .form-group.full-width {
             grid-column: 1 / -1;
         }
 
-        label {
-            font-weight: 500;
+        .form-label {
+            font-weight: 600;
+            font-size: 0.9375rem;
             color: var(--dark);
-            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .required {
-            color: var(--error);
+            color: var(--rose);
         }
 
-        input, select, textarea {
-            padding: 0.75rem;
-            border: 1px solid #ddd;
-            border-radius: 8px;
+        .form-input,
+        .form-select,
+        .form-textarea {
+            padding: 0.875rem 1.125rem;
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            font-size: 0.9375rem;
             font-family: inherit;
-            font-size: 0.95rem;
-            transition: border-color 0.3s;
+            transition: all 0.3s;
+            background: var(--white);
         }
 
-        input:focus, select:focus, textarea:focus {
+        .form-input:focus,
+        .form-select:focus,
+        .form-textarea:focus {
             outline: none;
+            border-color: var(--primary);
+            box-shadow: 0 0 0 4px rgba(139, 21, 56, 0.1);
+        }
+
+        .form-textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .form-hint {
+            font-size: 0.8125rem;
+            color: var(--neutral);
+        }
+
+        /* Section Divider */
+        .section-divider {
+            grid-column: 1 / -1;
+            margin: 1.5rem 0;
+            padding: 1.25rem 1.75rem;
+            background: linear-gradient(135deg, rgba(139, 21, 56, 0.05), rgba(212, 175, 55, 0.05));
+            border-left: 5px solid var(--primary);
+            border-radius: 12px;
+        }
+
+        .section-divider-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .section-divider-subtitle {
+            font-size: 0.875rem;
+            color: var(--neutral);
+            margin-top: 0.5rem;
+        }
+
+        /* Checkbox Toggle */
+        .checkbox-wrapper {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--cream);
+            border-radius: 12px;
+            border: 2px solid var(--border);
+            transition: all 0.3s;
+        }
+
+        .checkbox-wrapper:hover {
             border-color: var(--primary);
         }
 
-        textarea {
-            resize: vertical;
-            min-height: 100px;
+        .checkbox-toggle {
+            position: relative;
+            width: 56px;
+            height: 32px;
+            flex-shrink: 0;
         }
 
+        .checkbox-toggle input {
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .checkbox-slider {
+            position: absolute;
+            cursor: pointer;
+            inset: 0;
+            background-color: #ccc;
+            transition: 0.4s;
+            border-radius: 34px;
+        }
+
+        .checkbox-slider:before {
+            position: absolute;
+            content: "";
+            height: 24px;
+            width: 24px;
+            left: 4px;
+            bottom: 4px;
+            background-color: white;
+            transition: 0.4s;
+            border-radius: 50%;
+        }
+
+        .checkbox-toggle input:checked+.checkbox-slider {
+            background-color: var(--success);
+        }
+
+        .checkbox-toggle input:checked+.checkbox-slider:before {
+            transform: translateX(24px);
+        }
+
+        .checkbox-label {
+            flex: 1;
+        }
+
+        .checkbox-title {
+            font-weight: 600;
+            color: var(--dark);
+            font-size: 1rem;
+        }
+
+        .checkbox-description {
+            font-size: 0.8125rem;
+            color: var(--neutral);
+            margin-top: 0.25rem;
+        }
+
+        /* File Upload */
         .file-upload {
-            border: 2px dashed #ddd;
-            border-radius: 8px;
-            padding: 2rem;
+            border: 3px dashed var(--border);
+            border-radius: 16px;
+            padding: 3rem 2rem;
             text-align: center;
             cursor: pointer;
             transition: all 0.3s;
+            background: var(--cream);
         }
 
         .file-upload:hover {
             border-color: var(--primary);
-            background: var(--light-bg);
+            background: var(--rose-light);
         }
 
         .file-upload input {
@@ -467,94 +992,134 @@
         }
 
         .upload-icon {
-            font-size: 3rem;
+            font-size: 3.5rem;
             margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+
+        .upload-text {
+            font-size: 1rem;
+            color: var(--dark);
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .upload-hint {
+            font-size: 0.875rem;
+            color: var(--neutral);
         }
 
         .preview-image {
-            max-width: 200px;
-            max-height: 200px;
-            margin: 1rem auto;
-            border-radius: 8px;
+            max-width: 280px;
+            max-height: 280px;
+            margin: 1.5rem auto 0;
+            border-radius: 16px;
             display: none;
+            box-shadow: var(--shadow-lg);
+            border: 3px solid var(--border);
         }
 
         /* Buttons */
-        .btn-primary {
-            background: linear-gradient(135deg, var(--primary), var(--primary-light));
-            color: white;
-            padding: 0.75rem 2rem;
-            border: none;
-            border-radius: 8px;
+        .btn {
+            padding: 0.875rem 2rem;
+            border-radius: 12px;
+            font-weight: 700;
+            font-size: 0.9375rem;
             cursor: pointer;
-            font-weight: 600;
-            font-size: 1rem;
             transition: all 0.3s;
+            border: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 0.75rem;
+            justify-content: center;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--rose));
+            color: white;
+            box-shadow: 0 4px 15px rgba(139, 21, 56, 0.3);
         }
 
         .btn-primary:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(139, 21, 56, 0.3);
+            box-shadow: 0 8px 25px rgba(139, 21, 56, 0.4);
         }
 
         .btn-secondary {
-            background: #f5f5f5;
+            background: var(--white);
             color: var(--dark);
-            padding: 0.75rem 2rem;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            font-weight: 600;
-            font-size: 1rem;
-            transition: all 0.3s;
+            border: 2px solid var(--border);
         }
 
         .btn-secondary:hover {
-            background: #e0e0e0;
+            background: var(--cream);
+            border-color: var(--primary);
         }
 
         .form-actions {
             display: flex;
             gap: 1rem;
             justify-content: flex-end;
+            padding-top: 2rem;
+            border-top: 2px solid var(--border);
             margin-top: 2rem;
+            grid-column: 1 / -1;
         }
 
-        /* Loading State */
-        .loading {
+        /* Loading */
+        .loading-container {
+            padding: 5rem 2rem;
             text-align: center;
-            padding: 3rem;
-            color: var(--neutral);
         }
 
         .spinner {
-            width: 50px;
-            height: 50px;
-            border: 4px solid var(--light-bg);
+            width: 56px;
+            height: 56px;
+            border: 5px solid var(--border);
             border-top-color: var(--primary);
             border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 1rem;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 1.5rem;
         }
 
         @keyframes spin {
-            to { transform: rotate(360deg); }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        .loading-text {
+            color: var(--neutral);
+            font-size: 1rem;
+            font-weight: 500;
         }
 
         /* Empty State */
         .empty-state {
+            padding: 5rem 2rem;
             text-align: center;
-            padding: 3rem;
-            color: var(--neutral);
         }
 
         .empty-icon {
-            font-size: 4rem;
-            margin-bottom: 1rem;
-            opacity: 0.5;
+            font-size: 5rem;
+            margin-bottom: 1.5rem;
+            opacity: 0.3;
         }
 
-        /* Toast Notifications */
+        .empty-title {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--dark);
+            margin-bottom: 0.75rem;
+        }
+
+        .empty-text {
+            color: var(--neutral);
+            font-size: 1rem;
+        }
+
+        /* Toast */
         .toast-container {
             position: fixed;
             top: 2rem;
@@ -566,22 +1131,24 @@
         }
 
         .toast {
-            background: white;
-            padding: 1rem 1.5rem;
-            border-radius: 8px;
-            box-shadow: 0 5px 20px rgba(0,0,0,0.2);
+            background: var(--white);
+            padding: 1.25rem 1.5rem;
+            border-radius: 16px;
+            box-shadow: var(--shadow-xl);
             display: flex;
             align-items: center;
             gap: 1rem;
-            min-width: 300px;
-            animation: slideIn 0.3s ease-out;
+            min-width: 360px;
+            animation: slideIn 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            border: 2px solid var(--border);
         }
 
         @keyframes slideIn {
             from {
-                transform: translateX(400px);
+                transform: translateX(500px);
                 opacity: 0;
             }
+
             to {
                 transform: translateX(0);
                 opacity: 1;
@@ -589,19 +1156,20 @@
         }
 
         .toast.success {
-            border-left: 4px solid var(--success);
+            border-left: 5px solid var(--success);
         }
 
         .toast.error {
-            border-left: 4px solid var(--error);
+            border-left: 5px solid var(--error);
         }
 
         .toast.info {
-            border-left: 4px solid #2196F3;
+            border-left: 5px solid #1565c0;
         }
 
         .toast-icon {
-            font-size: 1.5rem;
+            font-size: 1.75rem;
+            flex-shrink: 0;
         }
 
         .toast-content {
@@ -609,12 +1177,14 @@
         }
 
         .toast-title {
-            font-weight: 600;
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--dark);
             margin-bottom: 0.25rem;
         }
 
         .toast-message {
-            font-size: 0.9rem;
+            font-size: 0.875rem;
             color: var(--neutral);
         }
 
@@ -625,33 +1195,168 @@
             cursor: pointer;
             color: var(--neutral);
             padding: 0;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            transition: all 0.2s;
         }
 
-        /* Responsive */
-        @media (max-width: 768px) {
-            .header-container {
-                padding: 0 1rem;
+        .toast-close:hover {
+            background: var(--cream);
+            color: var(--dark);
+        }
+
+        /* Info Banner */
+        .info-banner {
+            background: linear-gradient(135deg, var(--rose-light) 0%, #fce4ec 100%);
+            padding: 1.75rem;
+            border-radius: 16px;
+            border-left: 5px solid var(--rose);
+            margin-bottom: 2rem;
+        }
+
+        .info-banner-title {
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--dark);
+            margin-bottom: 0.875rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .info-banner-text {
+            font-size: 0.9375rem;
+            color: var(--neutral);
+            line-height: 1.7;
+        }
+
+        /* Content Section */
+        .content-section {
+            display: none;
+        }
+
+        .content-section.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
             }
 
-            .container {
-                padding: 0 1rem;
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Responsive Breakpoints */
+        @media (max-width: 1200px) {
+            .stats-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .search-input {
+                width: 220px;
+            }
+        }
+
+        @media (max-width: 1024px) {
+            .sidebar {
+                transform: translateX(-280px);
+            }
+
+            .sidebar.open {
+                transform: translateX(0);
+            }
+
+            .main-content {
+                margin-left: 0;
+            }
+
+            .mobile-header {
+                display: flex;
+            }
+
+            .content {
+                padding-top: 80px;
+            }
+
+            .topbar {
+                padding: 1rem 1.5rem;
+            }
+
+            .page-title {
+                font-size: 1.5rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .content {
+                padding: 1.5rem 1rem;
+                padding-top: 80px;
+            }
+
+            .topbar {
+                padding: 1rem;
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 1rem;
+            }
+
+            .topbar-right {
+                width: 100%;
+                justify-content: space-between;
+            }
+
+            .search-box {
+                flex: 1;
+            }
+
+            .search-input {
+                width: 100%;
+            }
+
+            .breadcrumb {
+                display: none;
             }
 
             .stats-grid {
                 grid-template-columns: 1fr;
             }
 
-            .tabs {
-                overflow-x: auto;
+            .stat-value {
+                font-size: 2rem;
             }
 
-            .section {
-                padding: 1rem;
+            .welcome-banner {
+                padding: 2rem 1.5rem;
             }
 
-            .section-header {
-                flex-direction: column;
-                align-items: flex-start;
+            .welcome-title {
+                font-size: 1.5rem;
+            }
+
+            .welcome-subtitle {
+                font-size: 0.9375rem;
+            }
+
+            .card-header {
+                padding: 1.25rem 1rem;
+            }
+
+            .card-body {
+                padding: 1.25rem 1rem;
+            }
+
+            .card-title {
+                font-size: 1.25rem;
             }
 
             .form-grid {
@@ -659,16 +1364,23 @@
             }
 
             .form-actions {
-                flex-direction: column;
+                flex-direction: column-reverse;
             }
 
-            .btn-primary, .btn-secondary {
+            .btn {
                 width: 100%;
             }
 
-            th, td {
-                padding: 0.75rem 0.5rem;
-                font-size: 0.85rem;
+            th,
+            td {
+                padding: 1rem 0.75rem;
+                font-size: 0.875rem;
+            }
+
+            .user-avatar {
+                width: 40px;
+                height: 40px;
+                font-size: 0.875rem;
             }
 
             .toast-container {
@@ -680,358 +1392,1045 @@
                 min-width: auto;
             }
 
-            .admin-info {
-                width: 100%;
-                justify-content: space-between;
+            .file-upload {
+                padding: 2rem 1rem;
             }
+
+            .upload-icon {
+                font-size: 2.5rem;
+            }
+
+            .action-btns {
+                justify-content: flex-start;
+            }
+
+            .btn-action {
+                width: 36px;
+                height: 36px;
+                font-size: 0.875rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .mobile-header {
+                padding: 0 0.75rem;
+            }
+
+            .mobile-toggle {
+                width: 36px;
+                height: 36px;
+                font-size: 1.125rem;
+            }
+
+            .mobile-logo {
+                font-size: 1.125rem;
+            }
+
+            .content {
+                padding: 1rem 0.75rem;
+                padding-top: 75px;
+            }
+
+            .welcome-banner {
+                padding: 1.5rem 1rem;
+            }
+
+            .welcome-title {
+                font-size: 1.25rem;
+            }
+
+            .stat-card {
+                padding: 1.5rem;
+            }
+
+            .stat-icon {
+                width: 52px;
+                height: 52px;
+                font-size: 1.75rem;
+            }
+
+            .stat-value {
+                font-size: 1.75rem;
+            }
+
+            .page-title {
+                font-size: 1.25rem;
+            }
+
+            th,
+            td {
+                padding: 0.875rem 0.5rem;
+                font-size: 0.8125rem;
+            }
+
+            .form-input,
+            .form-select,
+            .form-textarea {
+                padding: 0.75rem 1rem;
+            }
+
+            .btn {
+                padding: 0.75rem 1.5rem;
+                font-size: 0.875rem;
+            }
+        }
+
+        /* Utility Classes */
+        .fw-600 {
+            font-weight: 600;
+        }
+
+        .fw-700 {
+            font-weight: 700;
+        }
+
+        .text-muted {
+            color: var(--neutral);
         }
     </style>
 </head>
+
 <body>
 
-    <!-- Header -->
-    <header class="header">
-        <div class="header-container">
-            <div class="logo">
-                <span class="logo-icon">💍</span>
-                <span>Marriage Bureau Admin</span>
-            </div>
-            <div class="admin-info">
-                <div class="admin-profile">
-                    <div class="admin-avatar" id="adminAvatar">A</div>
-                    <div class="admin-name" id="adminName">Admin</div>
-                </div>
-                <button class="btn-logout" onclick="handleLogout()">Logout</button>
-            </div>
-        </div>
-    </header>
-
-    <!-- Main Container -->
-    <div class="container">
-        <!-- Statistics -->
-        <div class="stats-grid">
-            <div class="stat-card">
-                <div class="stat-icon">👫</div>
-                <div class="stat-content">
-                    <div class="stat-label">Total Profiles</div>
-                    <div class="stat-number" id="statTotalProfiles">0</div>
-                </div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">👥</div>
-                <div class="stat-content">
-                    <div class="stat-label">Total Users</div>
-                    <div class="stat-number" id="statTotalUsers">0</div>
-                </div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">⭐</div>
-                <div class="stat-content">
-                    <div class="stat-label">Active Profiles</div>
-                    <div class="stat-number" id="statActiveProfiles">0</div>
-                </div>
-            </div>
-            <div class="stat-card">
-                <div class="stat-icon">💌</div>
-                <div class="stat-content">
-                    <div class="stat-label">Total Enquiries</div>
-                    <div class="stat-number" id="statTotalEnquiries">0</div>
-                </div>
+    <div class="app-container">
+        <!-- Mobile Header -->
+        <div class="mobile-header">
+            <button class="mobile-toggle" onclick="toggleSidebar()">☰</button>
+            <div class="mobile-logo">
+                <span>💍</span>
+                <span>Marriage Bureau</span>
             </div>
         </div>
 
-        <!-- Navigation Tabs -->
-        <div class="tabs">
-            <button class="tab-btn active" onclick="switchTab('profiles')">
-                <span class="tab-icon">👫</span>
-                <span>Profiles</span>
-            </button>
-            <button class="tab-btn" onclick="switchTab('users')">
-                <span class="tab-icon">👥</span>
-                <span>All Users</span>
-            </button>
-            <button class="tab-btn" onclick="switchTab('enquiries')">
-                <span class="tab-icon">💌</span>
-                <span>Enquiries</span>
-            </button>
-            <button class="tab-btn" onclick="switchTab('add-profile')">
-                <span class="tab-icon">➕</span>
-                <span>Add Profile</span>
-            </button>
-        </div>
+        <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
 
-        <!-- Profiles Tab -->
-        <div id="profiles" class="tab-content active">
-            <div class="section">
-                <div class="section-header">
-                    <h2 class="section-title">
-                        <span>👫</span>
-                        <span>All Profiles</span>
-                    </h2>
-                </div>
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>Profile</th>
-                                <th>Age</th>
-                                <th>Gender</th>
-                                <th>Location</th>
-                                <th>Status</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="profilesTableBody">
-                            <tr>
-                                <td colspan="6" class="loading">
-                                    <div class="spinner"></div>
-                                    <div>Loading profiles...</div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+        <!-- Sidebar -->
+        <aside class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <div class="logo">
+                    <div class="logo-icon">💍</div>
+                    <span>Marriage Bureau</span>
                 </div>
             </div>
-        </div>
 
-        <!-- All Users Tab -->
-        <div id="users" class="tab-content">
-            <div class="section">
-                <div class="section-header">
-                    <h2 class="section-title">
-                        <span>👥</span>
-                        <span>All Registered Users</span>
-                    </h2>
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <div class="nav-section-title">Main</div>
+                    <div class="nav-item active" onclick="switchSection('dashboard')">
+                        <span class="nav-icon">🏠</span>
+                        <span>Dashboard</span>
+                    </div>
                 </div>
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>User</th>
-                                <th>Gender</th>
-                                <th>Age</th>
-                                <th>Phone</th>
-                                <th>Joined</th>
-                                <th>Role</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="usersTableBody">
-                            <tr>
-                                <td colspan="7" class="loading">
-                                    <div class="spinner"></div>
-                                    <div>Loading users...</div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
 
-        <!-- Enquiries Tab -->
-        <div id="enquiries" class="tab-content">
-            <div class="section">
-                <div class="section-header">
-                    <h2 class="section-title">
-                        <span>💌</span>
-                        <span>Profile Enquiries</span>
-                    </h2>
+                <div class="nav-section">
+                    <div class="nav-section-title">Management</div>
+                    <div class="nav-item" onclick="switchSection('profiles')">
+                        <span class="nav-icon">💑</span>
+                        <span>Profiles</span>
+                    </div>
+                    <div class="nav-item" onclick="switchSection('users')">
+                        <span class="nav-icon">👥</span>
+                        <span>Users</span>
+                    </div>
+                    <div class="nav-item" onclick="switchSection('access-requests')">
+                        <span class="nav-icon">💳</span>
+                        <span>Access Requests</span>
+                        <span class="nav-badge" id="navBadge">0</span>
+                    </div>
                 </div>
-                <div class="table-container">
-                    <table>
-                        <thead>
-                            <tr>
-                                <th>User</th>
-                                <th>Profile</th>
-                                <th>Contact</th>
-                                <th>Message</th>
-                                <th>Status</th>
-                                <th>Date</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody id="enquiriesTableBody">
-                            <tr>
-                                <td colspan="7" class="loading">
-                                    <div class="spinner"></div>
-                                    <div>Loading enquiries...</div>
-                                </td>
-                            </tr>
-                        </tbody>
-                    </table>
+
+                <div class="nav-section">
+                    <div class="nav-section-title">Actions</div>
+                    <div class="nav-item" onclick="switchSection('add-profile')">
+                        <span class="nav-icon">➕</span>
+                        <span>Add Profile</span>
+                    </div>
+                    <div class="nav-item" onclick="switchSection('payment-settings')">
+                        <span class="nav-icon">⚙️</span>
+                        <span>Payment Settings</span>
+                    </div>
+                </div>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="admin-card" onclick="handleLogout()">
+                    <div class="admin-avatar" id="sidebarAvatar">A</div>
+                    <div class="admin-info">
+                        <div class="admin-name" id="sidebarName">Admin User</div>
+                        <div class="admin-role">Administrator</div>
+                    </div>
+                    <span class="logout-icon">⎋</span>
                 </div>
             </div>
-        </div>
+        </aside>
 
-        <!-- Add Profile Tab -->
-        <div id="add-profile" class="tab-content">
-            <div class="section">
-                <div class="section-header">
-                    <h2 class="section-title">
-                        <span>➕</span>
-                        <span>Create New Profile</span>
-                    </h2>
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Topbar -->
+            <div class="topbar">
+                <div class="topbar-left">
+                    <h1 class="page-title" id="pageTitle">
+                        <span>🏠</span>
+                        <span>Dashboard</span>
+                    </h1>
+                    <div class="breadcrumb">
+                        <span>Home</span>
+                        <span class="breadcrumb-separator">/</span>
+                        <span id="breadcrumbPage">Dashboard</span>
+                    </div>
                 </div>
+                <div class="topbar-right">
+                    <div class="search-box">
+                        <span class="search-icon">🔍</span>
+                        <input type="text" class="search-input" placeholder="Search..." id="globalSearch"
+                            onkeyup="handleGlobalSearch()">
+                    </div>
+                    <div class="topbar-actions">
+                        <button class="icon-btn" title="Notifications">
+                            🔔
+                            <span class="badge" id="notificationBadge">0</span>
+                        </button>
+                        <button class="icon-btn" title="Help">
+                            ❓
+                        </button>
+                    </div>
+                </div>
+            </div>
 
-                <form id="addProfileForm" onsubmit="handleAddProfile(event)">
-                    <div class="form-grid">
-                        <div class="form-group">
-                            <label>Full Name <span class="required">*</span></label>
-                            <input type="text" id="profileName" placeholder="Enter full name" required>
+            <!-- Content -->
+            <div class="content">
+                <!-- Dashboard Section -->
+                <div id="dashboard" class="content-section active">
+                    <!-- Welcome Banner -->
+                    <div class="welcome-banner">
+                        <div class="welcome-content">
+                            <h2 class="welcome-title">Welcome back, <span id="welcomeName">Admin</span>! 💐</h2>
+                            <p class="welcome-subtitle">Managing beautiful connections and bringing hearts together ✨
+                            </p>
                         </div>
+                    </div>
 
-                        <div class="form-group">
-                            <label>Age <span class="required">*</span></label>
-                            <input type="number" id="profileAge" min="18" max="100" placeholder="Enter age" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Gender <span class="required">*</span></label>
-                            <select id="profileGender" required>
-                                <option value="">Select gender</option>
-                                <option value="Male">Male</option>
-                                <option value="Female">Female</option>
-                                <option value="Other">Other</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Date of Birth</label>
-                            <input type="date" id="profileDob">
-                        </div>
-
-                        <div class="form-group">
-                            <label>Location <span class="required">*</span></label>
-                            <input type="text" id="profileLocation" placeholder="City, State" required>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Profession</label>
-                            <input type="text" id="profileProfession" placeholder="Occupation">
-                        </div>
-
-                        <div class="form-group">
-                            <label>Education</label>
-                            <input type="text" id="profileEducation" placeholder="Highest qualification">
-                        </div>
-
-                        <div class="form-group">
-                            <label>Height</label>
-                            <input type="text" id="profileHeight" placeholder="e.g., 5'8&quot;">
-                        </div>
-
-                        <div class="form-group">
-                            <label>Annual Income</label>
-                            <input type="text" id="profileIncome" placeholder="e.g., 5-7 LPA">
-                        </div>
-
-                        <div class="form-group">
-                            <label>Profile Status</label>
-                            <select id="profileStatus">
-                                <option value="active">Active</option>
-                                <option value="inactive">Inactive</option>
-                            </select>
-                        </div>
-
-                        <div class="form-group full-width">
-                            <label>Bio / Description</label>
-                            <textarea id="profileBio" placeholder="Write a brief description..."></textarea>
-                        </div>
-
-                        <div class="form-group full-width">
-                            <label>Profile Photo</label>
-                            <div class="file-upload" onclick="document.getElementById('profilePhoto').click()">
-                                <div class="upload-icon">📷</div>
-                                <p>Click to upload photo</p>
-                                <p style="font-size: 0.85rem; color: var(--neutral);">PNG, JPG, WEBP (Max 5MB)</p>
-                                <input type="file" id="profilePhoto" accept="image/*" onchange="previewImage(event)">
+                    <!-- Stats -->
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <div class="stat-icon couples">💑</div>
+                            <div class="stat-content">
+                                <div class="stat-label">Total Profiles</div>
+                                <div class="stat-value" id="statTotalProfiles">0</div>
+                                <!-- <span class="stat-change positive">↑ 12% this month</span> -->
                             </div>
-                            <img id="previewImg" class="preview-image" alt="Preview">
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon verified">✨</div>
+                            <div class="stat-content">
+                                <div class="stat-label">Active Matches</div>
+                                <div class="stat-value" id="statActiveProfiles">0</div>
+                                <!-- <span class="stat-change positive">↑ 8% this month</span> -->
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon users">💕</div>
+                            <div class="stat-content">
+                                <div class="stat-label">Total Users</div>
+                                <div class="stat-value" id="statTotalUsers">0</div>
+                                <!-- <span class="stat-change positive">↑ 15% this month</span> -->
+                            </div>
+                        </div>
+                        <div class="stat-card">
+                            <div class="stat-icon requests">💌</div>
+                            <div class="stat-content">
+                                <div class="stat-label">Pending Requests</div>
+                                <div class="stat-value" id="statPendingRequests">0</div>
+                                <!-- <span class="stat-change positive">Awaiting review</span> -->
+                            </div>
                         </div>
                     </div>
 
-                    <div class="form-actions">
-                        <button type="button" class="btn-secondary" onclick="resetForm()">Clear Form</button>
-                        <button type="submit" class="btn-primary">Create Profile</button>
+                    <!-- Quick Actions -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <span>⚡</span>
+                                <span>Quick Actions</span>
+                            </h3>
+                        </div>
+                        <div class="card-body">
+                            <div
+                                style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+                                <button class="btn btn-primary" onclick="switchSection('add-profile')">
+                                    <span>➕</span>
+                                    <span>Add New Profile</span>
+                                </button>
+                                <button class="btn btn-secondary" onclick="switchSection('access-requests')">
+                                    <span>💳</span>
+                                    <span>Review Requests</span>
+                                </button>
+                                <button class="btn btn-secondary" onclick="switchSection('payment-settings')">
+                                    <span>⚙️</span>
+                                    <span>Payment Settings</span>
+                                </button>
+                            </div>
+                        </div>
                     </div>
-                </form>
-            </div>
-        </div>
+                </div>
 
+                <!-- Profiles Section -->
+                <div id="profiles" class="content-section">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <span>💑</span>
+                                <span>All Profiles</span>
+                            </h3>
+                            <div class="card-actions">
+                                <div class="search-box">
+                                    <span class="search-icon">🔍</span>
+                                    <input type="text" class="search-input" placeholder="Search profiles..."
+                                        id="searchProfiles" onkeyup="searchProfiles()" style="width: 280px;">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body" style="padding: 0;">
+                            <div class="table-container">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>Profile</th>
+                                            <th>Age</th>
+                                            <th>Gender</th>
+                                            <th>Location</th>
+                                            <th>Status</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="profilesTableBody">
+                                        <tr>
+                                            <td colspan="6">
+                                                <div class="loading-container">
+                                                    <div class="spinner"></div>
+                                                    <div class="loading-text">Loading profiles...</div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Users Section -->
+                <div id="users" class="content-section">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <span>👥</span>
+                                <span>Registered Users</span>
+                            </h3>
+                            <div class="card-actions">
+                                <div class="search-box">
+                                    <span class="search-icon">🔍</span>
+                                    <input type="text" class="search-input" placeholder="Search users..."
+                                        id="searchUsers" onkeyup="searchUsers()" style="width: 280px;">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body" style="padding: 0;">
+                            <div class="table-container">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>User</th>
+                                            <th>Gender</th>
+                                            <th>Age</th>
+                                            <th>Phone</th>
+                                            <th>Joined</th>
+                                            <th>Role</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="usersTableBody">
+                                        <tr>
+                                            <td colspan="7">
+                                                <div class="loading-container">
+                                                    <div class="spinner"></div>
+                                                    <div class="loading-text">Loading users...</div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Access Requests Section -->
+                <div id="access-requests" class="content-section">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <span>💳</span>
+                                <span>Profile Access Requests</span>
+                            </h3>
+                        </div>
+                        <div class="card-body" style="padding: 0;">
+                            <div class="table-container">
+                                <table>
+                                    <thead>
+                                        <tr>
+                                            <th>User</th>
+                                            <th>Profile</th>
+                                            <th>Amount</th>
+                                            <th>UTR Number</th>
+                                            <th>Method</th>
+                                            <th>Screenshot</th>
+                                            <th>Status</th>
+                                            <th>Date</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="accessRequestsTableBody">
+                                        <tr>
+                                            <td colspan="9">
+                                                <div class="loading-container">
+                                                    <div class="spinner"></div>
+                                                    <div class="loading-text">Loading requests...</div>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Add Profile Section -->
+                <div id="add-profile" class="content-section">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <span>➕</span>
+                                <span>Create New Profile</span>
+                            </h3>
+                        </div>
+                        <div class="card-body">
+                            <form id="addProfileForm" onsubmit="handleAddProfile(event)">
+                                <div class="form-grid">
+                                    <!-- BASIC INFORMATION SECTION -->
+                                    <div class="section-divider">
+                                        <div class="section-divider-title">
+                                            <span>👤</span>
+                                            <span>Basic Information</span>
+                                        </div>
+                                        <div class="section-divider-subtitle">Always visible to all users</div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label">Full Name <span class="required">*</span></label>
+                                        <input type="text" class="form-input" id="name" required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label">Gender <span class="required">*</span></label>
+                                        <select class="form-select" id="gender" required>
+                                            <option value="">Select Gender</option>
+                                            <option value="Male">Male</option>
+                                            <option value="Female">Female</option>
+                                            <option value="Other">Other</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label">Age <span class="required">*</span></label>
+                                        <input type="number" class="form-input" id="age" min="18" max="100" required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label">Date of Birth</label>
+                                        <input type="date" class="form-input" id="dob">
+                                        <span class="form-hint">Will calculate age automatically</span>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label">Location <span class="required">*</span></label>
+                                        <input type="text" class="form-input" id="location" placeholder="City, State"
+                                            required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label">Profession</label>
+                                        <input type="text" class="form-input" id="profession" placeholder="Job title">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label">Education</label>
+                                        <input type="text" class="form-input" id="education"
+                                            placeholder="Highest degree">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label">Height</label>
+                                        <input type="text" class="form-input" id="height" placeholder="e.g., 5'8&quot;">
+                                    </div>
+
+                                    <div class="form-group full-width">
+                                        <label class="form-label">Bio / Description</label>
+                                        <textarea class="form-textarea" id="bio"
+                                            placeholder="Write a brief description..." maxlength="1000"></textarea>
+                                        <span class="form-hint">Maximum 1000 characters</span>
+                                    </div>
+
+                                    <div class="form-group full-width">
+                                        <label class="form-label">Profile Photo</label>
+                                        <div class="file-upload" onclick="document.getElementById('imageUrl').click()">
+                                            <div class="upload-icon">📷</div>
+                                            <div class="upload-text">Click to upload photo</div>
+                                            <div class="upload-hint">PNG, JPG, WEBP up to 5MB</div>
+                                            <input type="file" id="imageUrl" accept="image/*"
+                                                onchange="previewImage(event, 'previewImg')">
+                                        </div>
+                                        <img id="previewImg" class="preview-image" alt="Preview">
+                                    </div>
+
+                                    <!-- CONTACT INFORMATION SECTION -->
+                                    <div class="section-divider">
+                                        <div class="section-divider-title">
+                                            <span>📞</span>
+                                            <span>Contact Information</span>
+                                        </div>
+                                        <div class="section-divider-subtitle">Premium details (requires payment to
+                                            access)</div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label">Phone Number</label>
+                                        <input type="tel" class="form-input" id="phoneNumber"
+                                            placeholder="+91 98765 43210">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label">WhatsApp Number</label>
+                                        <input type="tel" class="form-input" id="whatsappNumber"
+                                            placeholder="+91 98765 43210">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label">Email Address</label>
+                                        <input type="email" class="form-input" id="email"
+                                            placeholder="example@email.com">
+                                    </div>
+
+                                    <!-- PERSONAL DETAILS SECTION -->
+                                    <div class="section-divider">
+                                        <div class="section-divider-title">
+                                            <span>💼</span>
+                                            <span>Personal Details</span>
+                                        </div>
+                                        <div class="section-divider-subtitle">Premium details</div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label">Annual Income</label>
+                                        <input type="text" class="form-input" id="income" placeholder="e.g., 5-10 LPA">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label">Caste</label>
+                                        <input type="text" class="form-input" id="caste" placeholder="Enter caste">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label">Gotra</label>
+                                        <input type="text" class="form-input" id="gotra" placeholder="Enter gotra">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label">Marital Status</label>
+                                        <select class="form-select" id="maritalStatus">
+                                            <option value="">Select</option>
+                                            <option value="Never Married">Never Married</option>
+                                            <option value="Divorced">Divorced</option>
+                                            <option value="Widowed">Widowed</option>
+                                            <option value="Separated">Separated</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label">Mother Tongue</label>
+                                        <input type="text" class="form-input" id="motherTongue"
+                                            placeholder="e.g., Hindi, English">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label">Religion</label>
+                                        <input type="text" class="form-input" id="religion"
+                                            placeholder="Enter religion">
+                                    </div>
+
+                                    <!-- PHYSICAL ATTRIBUTES SECTION -->
+                                    <div class="section-divider">
+                                        <div class="section-divider-title">
+                                            <span>🏃</span>
+                                            <span>Physical Attributes</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label">Body Type</label>
+                                        <select class="form-select" id="bodyType">
+                                            <option value="">Select</option>
+                                            <option value="Slim">Slim</option>
+                                            <option value="Average">Average</option>
+                                            <option value="Athletic">Athletic</option>
+                                            <option value="Heavy">Heavy</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label">Complexion</label>
+                                        <select class="form-select" id="complexion">
+                                            <option value="">Select</option>
+                                            <option value="Very Fair">Very Fair</option>
+                                            <option value="Fair">Fair</option>
+                                            <option value="Wheatish">Wheatish</option>
+                                            <option value="Dark">Dark</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label">Blood Group</label>
+                                        <select class="form-select" id="bloodGroup">
+                                            <option value="">Select</option>
+                                            <option value="A+">A+</option>
+                                            <option value="A-">A-</option>
+                                            <option value="B+">B+</option>
+                                            <option value="B-">B-</option>
+                                            <option value="AB+">AB+</option>
+                                            <option value="AB-">AB-</option>
+                                            <option value="O+">O+</option>
+                                            <option value="O-">O-</option>
+                                        </select>
+                                    </div>
+
+                                    <!-- LIFESTYLE SECTION -->
+                                    <div class="section-divider">
+                                        <div class="section-divider-title">
+                                            <span>🍽️</span>
+                                            <span>Lifestyle</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label">Diet</label>
+                                        <select class="form-select" id="diet">
+                                            <option value="">Select</option>
+                                            <option value="Vegetarian">Vegetarian</option>
+                                            <option value="Non-Vegetarian">Non-Vegetarian</option>
+                                            <option value="Eggetarian">Eggetarian</option>
+                                            <option value="Vegan">Vegan</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label">Drinking</label>
+                                        <select class="form-select" id="drinking">
+                                            <option value="">Select</option>
+                                            <option value="No">No</option>
+                                            <option value="Yes - Socially">Yes - Socially</option>
+                                            <option value="Yes - Regularly">Yes - Regularly</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label">Smoking</label>
+                                        <select class="form-select" id="smoking">
+                                            <option value="">Select</option>
+                                            <option value="No">No</option>
+                                            <option value="Yes - Socially">Yes - Socially</option>
+                                            <option value="Yes - Regularly">Yes - Regularly</option>
+                                        </select>
+                                    </div>
+
+                                    <!-- FAMILY DETAILS SECTION -->
+                                    <div class="section-divider">
+                                        <div class="section-divider-title">
+                                            <span>👨‍👩‍👧‍👦</span>
+                                            <span>Family Information</span>
+                                        </div>
+                                        <div class="section-divider-subtitle">Premium details</div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label">Family Type</label>
+                                        <select class="form-select" id="familyType">
+                                            <option value="">Select</option>
+                                            <option value="Joint">Joint</option>
+                                            <option value="Nuclear">Nuclear</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label">Father's Name</label>
+                                        <input type="text" class="form-input" id="fatherName">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label">Father's Occupation</label>
+                                        <input type="text" class="form-input" id="fatherOccupation">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label">Mother's Name</label>
+                                        <input type="text" class="form-input" id="motherName">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label">Mother's Occupation</label>
+                                        <input type="text" class="form-input" id="motherOccupation">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label">Siblings</label>
+                                        <input type="text" class="form-input" id="siblings"
+                                            placeholder="e.g., 1 Brother, 1 Sister">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label">Family Income</label>
+                                        <input type="text" class="form-input" id="familyIncome"
+                                            placeholder="e.g., 10-15 LPA">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label">Family Location</label>
+                                        <input type="text" class="form-input" id="familyLocation"
+                                            placeholder="City, State">
+                                    </div>
+
+                                    <!-- HOROSCOPE DETAILS SECTION -->
+                                    <div class="section-divider">
+                                        <div class="section-divider-title">
+                                            <span>🔮</span>
+                                            <span>Horoscope Details</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label">Birth Place</label>
+                                        <input type="text" class="form-input" id="birthPlace"
+                                            placeholder="City of birth">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label">Birth Time</label>
+                                        <input type="time" class="form-input" id="birthTime">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label">Rashi</label>
+                                        <input type="text" class="form-input" id="rashi" placeholder="Moon sign">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label">Nakshatra</label>
+                                        <input type="text" class="form-input" id="nakshatra" placeholder="Star">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label">Manglik Status</label>
+                                        <select class="form-select" id="manglik">
+                                            <option value="">Select</option>
+                                            <option value="Yes">Yes</option>
+                                            <option value="No">No</option>
+                                            <option value="Anshik">Anshik</option>
+                                            <option value="Don't Know">Don't Know</option>
+                                        </select>
+                                    </div>
+
+                                    <!-- PARTNER PREFERENCES SECTION -->
+                                    <div class="section-divider">
+                                        <div class="section-divider-title">
+                                            <span>💕</span>
+                                            <span>Partner Preferences</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label">Partner Age (Min)</label>
+                                        <input type="number" class="form-input" id="partnerAgeMin" min="18" max="100"
+                                            placeholder="18">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label">Partner Age (Max)</label>
+                                        <input type="number" class="form-input" id="partnerAgeMax" min="18" max="100"
+                                            placeholder="35">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label">Partner Height (Min)</label>
+                                        <input type="text" class="form-input" id="partnerHeightMin"
+                                            placeholder="5'0&quot;">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label">Partner Height (Max)</label>
+                                        <input type="text" class="form-input" id="partnerHeightMax"
+                                            placeholder="6'0&quot;">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label">Partner Marital Status</label>
+                                        <input type="text" class="form-input" id="partnerMaritalStatus"
+                                            placeholder="e.g., Never Married">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label">Partner Education</label>
+                                        <input type="text" class="form-input" id="partnerEducation"
+                                            placeholder="Preferred education">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label">Partner Profession</label>
+                                        <input type="text" class="form-input" id="partnerProfession"
+                                            placeholder="Preferred profession">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label">Partner Location</label>
+                                        <input type="text" class="form-input" id="partnerLocation"
+                                            placeholder="Preferred location">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label">Partner Income</label>
+                                        <input type="text" class="form-input" id="partnerIncome"
+                                            placeholder="Expected income range">
+                                    </div>
+
+                                    <!-- PROFILE SETTINGS SECTION -->
+                                    <div class="section-divider">
+                                        <div class="section-divider-title">
+                                            <span>⚙️</span>
+                                            <span>Profile Settings</span>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group full-width">
+                                        <div class="checkbox-wrapper">
+                                            <label class="checkbox-toggle">
+                                                <input type="checkbox" id="isPremium">
+                                                <span class="checkbox-slider"></span>
+                                            </label>
+                                            <div class="checkbox-label">
+                                                <div class="checkbox-title">⭐ Premium Profile</div>
+                                                <div class="checkbox-description">Mark as premium profile with featured
+                                                    badge</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group full-width">
+                                        <div class="checkbox-wrapper">
+                                            <label class="checkbox-toggle">
+                                                <input type="checkbox" id="isVerified" checked>
+                                                <span class="checkbox-slider"></span>
+                                            </label>
+                                            <div class="checkbox-label">
+                                                <div class="checkbox-title">✅ Verified Profile</div>
+                                                <div class="checkbox-description">Show verification badge on profile
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group full-width">
+                                        <div class="checkbox-wrapper">
+                                            <label class="checkbox-toggle">
+                                                <input type="checkbox" id="isFeatured">
+                                                <span class="checkbox-slider"></span>
+                                            </label>
+                                            <div class="checkbox-label">
+                                                <div class="checkbox-title">🌟 Featured Profile</div>
+                                                <div class="checkbox-description">Display prominently on homepage</div>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Form Actions -->
+                                    <div class="form-actions">
+                                        <button type="button" class="btn btn-secondary"
+                                            onclick="resetForm('addProfileForm', 'previewImg')">
+                                            <span>↺</span>
+                                            <span>Clear Form</span>
+                                        </button>
+                                        <button type="submit" class="btn btn-primary">
+                                            <span>✨</span>
+                                            <span>Create Profile</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Payment Settings Section -->
+                <div id="payment-settings" class="content-section">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <span>⚙️</span>
+                                <span>Payment Configuration</span>
+                            </h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="info-banner">
+                                <div class="info-banner-title">
+                                    <span>💕</span>
+                                    <span>Current Settings</span>
+                                </div>
+                                <div class="info-banner-text" id="currentSettings">
+                                    Loading current settings...
+                                </div>
+                            </div>
+                            <form id="paymentSettingsForm" onsubmit="updatePaymentSettings(event)">
+                                <div class="form-grid">
+                                    <div class="form-group">
+                                        <label class="form-label">UPI ID <span class="required">*</span></label>
+                                        <input type="text" class="form-input" id="settingsUpiId"
+                                            placeholder="example@upi" required>
+                                        <span class="form-hint">Users will pay to this UPI ID</span>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Access Fee (₹) <span class="required">*</span></label>
+                                        <input type="number" class="form-input" id="settingsAccessFee" min="1"
+                                            placeholder="500" required>
+                                        <span class="form-hint">Amount to charge per profile access</span>
+                                    </div>
+                                    <div class="form-group full-width">
+                                        <label class="form-label">Payment QR Code <span
+                                                class="required">*</span></label>
+                                        <div class="file-upload"
+                                            onclick="document.getElementById('settingsQrCode').click()">
+                                            <div class="upload-icon">📱</div>
+                                            <div class="upload-text">Click to upload QR code image</div>
+                                            <div class="upload-hint">PNG, JPG up to 5MB</div>
+                                            <input type="file" id="settingsQrCode" accept="image/*"
+                                                onchange="previewImage(event, 'previewQr')">
+                                        </div>
+                                        <img id="previewQr" class="preview-image" alt="QR Preview">
+                                    </div>
+                                </div>
+                                <div class="form-actions">
+                                    <button type="submit" class="btn btn-primary">
+                                        <span>💾</span>
+                                        <span>Update Settings</span>
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
     </div>
 
     <!-- Toast Container -->
     <div class="toast-container" id="toastContainer"></div>
 
     <script>
-        // Configuration
-        const API_BASE_URL = 'https://backendweb-2-frw4.onrender.com/api';
+        const API_BASE_URL = 'https://backendweb-1-7414.onrender.com/api';
 
-        // Global State
         let allProfiles = [];
         let allUsers = [];
+        let displayedProfiles = [];
+        let displayedUsers = [];
+        let currentSection = 'dashboard';
 
-        // Get Headers with Token
         function getHeaders() {
-            return {
-                'x-auth-token': sessionStorage.getItem('token')
-            };
+            return { 'x-auth-token': sessionStorage.getItem('token') };
         }
 
-        // Toast Notifications
         function showToast(type, title, message) {
             const container = document.getElementById('toastContainer');
             const toast = document.createElement('div');
             toast.className = `toast ${type}`;
-
-            const icons = {
-                success: '✅',
-                error: '❌',
-                info: 'ℹ️'
-            };
-
+            const icons = { success: '✅', error: '❌', info: 'ℹ️' };
             toast.innerHTML = `
-                <div class="toast-icon">${icons[type]}</div>
-                <div class="toast-content">
-                    <div class="toast-title">${title}</div>
-                    <div class="toast-message">${message}</div>
-                </div>
-                <button class="toast-close" onclick="this.parentElement.remove()">×</button>
-            `;
-
+        <div class="toast-icon">${icons[type]}</div>
+        <div class="toast-content">
+            <div class="toast-title">${title}</div>
+            <div class="toast-message">${message}</div>
+        </div>
+        <button class="toast-close" onclick="this.parentElement.remove()">×</button>
+    `;
             container.appendChild(toast);
-            setTimeout(() => toast.remove(), 4000);
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                setTimeout(() => toast.remove(), 300);
+            }, 4000);
         }
 
-        // Tab Switching
-        function switchTab(tabName) {
-            // Update tabs
-            document.querySelectorAll('.tab-content').forEach(tab => tab.classList.remove('active'));
-            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+        function toggleSidebar() {
+            const sidebar = document.getElementById('sidebar');
+            const overlay = document.querySelector('.sidebar-overlay');
+            sidebar.classList.toggle('open');
+            overlay.classList.toggle('active');
+        }
 
-            document.getElementById(tabName).classList.add('active');
+        function switchSection(section) {
+            document.querySelectorAll('.nav-item').forEach(item => item.classList.remove('active'));
             event.currentTarget.classList.add('active');
 
-            // Load data based on tab
-            if (tabName === 'profiles') {
-                fetchProfiles();
-            } else if (tabName === 'users') {
-                fetchUsers();
-            } else if (tabName === 'enquiries') {
-                fetchEnquiries();
+            document.querySelectorAll('.content-section').forEach(sec => sec.classList.remove('active'));
+            document.getElementById(section).classList.add('active');
+
+            const icons = {
+                'dashboard': '🏠',
+                'profiles': '💑',
+                'users': '👥',
+                'access-requests': '💳',
+                'add-profile': '➕',
+                'payment-settings': '⚙️'
+            };
+
+            const titles = {
+                'dashboard': 'Dashboard',
+                'profiles': 'Profiles Management',
+                'users': 'Users Management',
+                'access-requests': 'Access Requests',
+                'add-profile': 'Add New Profile',
+                'payment-settings': 'Payment Settings'
+            };
+
+            document.getElementById('pageTitle').innerHTML = `<span>${icons[section]}</span><span>${titles[section]}</span>`;
+            document.getElementById('breadcrumbPage').textContent = titles[section];
+
+            currentSection = section;
+
+            if (section === 'profiles') fetchProfiles();
+            else if (section === 'users') fetchUsers();
+            else if (section === 'access-requests') fetchAccessRequests();
+            else if (section === 'payment-settings') fetchPaymentSettings();
+
+            if (window.innerWidth <= 1024) {
+                toggleSidebar();
             }
         }
 
-        // Fetch Dashboard Statistics
         async function fetchDashboardStats() {
             try {
-                const response = await fetch(`${API_BASE_URL}/admin/stats`, {
-                    headers: getHeaders()
-                });
+                const [statsRes, accessRes] = await Promise.all([
+                    fetch(`${API_BASE_URL}/admin/stats`, { headers: getHeaders() }),
+                    fetch(`${API_BASE_URL}/access-requests/stats/count`, { headers: getHeaders() })
+                ]);
 
-                if (response.ok) {
-                    const data = await response.json();
+                if (statsRes.ok) {
+                    const data = await statsRes.json();
                     if (data.success) {
                         document.getElementById('statTotalProfiles').textContent = data.stats.totalProfiles || 0;
                         document.getElementById('statTotalUsers').textContent = data.stats.totalUsers || 0;
@@ -1039,15 +2438,21 @@
                     }
                 }
 
-                // Fetch enquiries count separately
-                const enquiriesResponse = await fetch(`${API_BASE_URL}/inquiries/stats/count`, {
-                    headers: getHeaders()
-                });
+                if (accessRes.ok) {
+                    const data = await accessRes.json();
+                    if (data.success) {
+                        const pending = data.stats.pending || 0;
+                        document.getElementById('statPendingRequests').textContent = pending;
+                        document.getElementById('navBadge').textContent = pending;
+                        document.getElementById('notificationBadge').textContent = pending;
 
-                if (enquiriesResponse.ok) {
-                    const enquiriesData = await enquiriesResponse.json();
-                    if (enquiriesData.success) {
-                        document.getElementById('statTotalEnquiries').textContent = enquiriesData.stats.total || 0;
+                        if (pending === 0) {
+                            document.getElementById('navBadge').style.display = 'none';
+                            document.getElementById('notificationBadge').style.display = 'none';
+                        } else {
+                            document.getElementById('navBadge').style.display = 'inline-flex';
+                            document.getElementById('notificationBadge').style.display = 'flex';
+                        }
                     }
                 }
             } catch (error) {
@@ -1055,426 +2460,344 @@
             }
         }
 
-        // Fetch All Profiles
         async function fetchProfiles() {
             const tbody = document.getElementById('profilesTableBody');
-            tbody.innerHTML = `
-                <tr>
-                    <td colspan="6" class="loading">
-                        <div class="spinner"></div>
-                        <div>Loading profiles...</div>
-                    </td>
-                </tr>
-            `;
+            tbody.innerHTML = '<tr><td colspan="6"><div class="loading-container"><div class="spinner"></div><div class="loading-text">Loading profiles...</div></div></td></tr>';
 
             try {
                 const response = await fetch(`${API_BASE_URL}/profiles`);
                 const data = await response.json();
-
-                allProfiles = data.profiles || data || [];
-                renderProfiles(allProfiles);
+                allProfiles = data.profiles || [];
+                displayedProfiles = allProfiles;
+                renderProfiles(displayedProfiles);
             } catch (error) {
-                console.error('Error fetching profiles:', error);
-                tbody.innerHTML = `
-                    <tr>
-                        <td colspan="6" class="empty-state">
-                            <div class="empty-icon">⚠️</div>
-                            <div>Failed to load profiles</div>
-                        </td>
-                    </tr>
-                `;
+                tbody.innerHTML = '<tr><td colspan="6"><div class="empty-state"><div class="empty-icon">⚠️</div><div class="empty-title">Failed to Load</div><div class="empty-text">Unable to fetch profiles. Please try again.</div></div></td></tr>';
             }
         }
 
-        // Render Profiles Table
         function renderProfiles(profiles) {
             const tbody = document.getElementById('profilesTableBody');
-
             if (profiles.length === 0) {
-                tbody.innerHTML = `
-                    <tr>
-                        <td colspan="6" class="empty-state">
-                            <div class="empty-icon">📭</div>
-                            <div>No profiles found</div>
-                        </td>
-                    </tr>
-                `;
+                tbody.innerHTML = '<tr><td colspan="6"><div class="empty-state"><div class="empty-icon">💑</div><div class="empty-title">No Profiles Found</div><div class="empty-text">Start by adding your first profile.</div></div></td></tr>';
                 return;
             }
 
             tbody.innerHTML = profiles.map(profile => {
                 const initials = profile.name.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
                 const isActive = profile.isVerified !== false;
-
                 return `
-                    <tr>
-                        <td>
-                            <div class="user-cell">
-                                ${profile.imageUrl 
-                                    ? `<img src="${profile.imageUrl}" class="user-avatar" alt="${profile.name}">` 
-                                    : `<div class="user-avatar">${initials}</div>`
-                                }
-                                <div class="user-info">
-                                    <div class="user-name">${profile.name}</div>
-                                    <div class="user-email">${profile.profession || 'N/A'}</div>
-                                </div>
-                            </div>
-                        </td>
-                        <td>${profile.age || 'N/A'}</td>
-                        <td>${profile.gender || 'N/A'}</td>
-                        <td>${profile.location || 'N/A'}</td>
-                        <td>
-                            <span class="status-badge ${isActive ? 'active' : 'inactive'}">
-                                <span class="status-dot"></span>
-                                ${isActive ? 'Active' : 'Inactive'}
-                            </span>
-                        </td>
-                        <td>
-                            <div class="action-btns">
-                                <button class="btn-action btn-view" onclick="viewProfile('${profile._id}')" title="View">👁️</button>
-                                <button class="btn-action btn-toggle" onclick="toggleProfileStatus('${profile._id}', ${!isActive})" title="${isActive ? 'Deactivate' : 'Activate'}">
-                                    ${isActive ? '🔒' : '✅'}
-                                </button>
-                                <button class="btn-action btn-delete" onclick="deleteProfile('${profile._id}')" title="Delete">🗑️</button>
-                            </div>
-                        </td>
-                    </tr>
-                `;
+            <tr>
+                <td>
+                    <div class="user-cell">
+                        ${profile.imageUrl
+                        ? `<img src="${profile.imageUrl}" class="user-avatar" alt="${profile.name}">`
+                        : `<div class="user-avatar">${initials}</div>`}
+                        <div class="user-info">
+                            <div class="user-name">${profile.name}</div>
+                            <div class="user-email">${profile.profession || 'No profession'}</div>
+                        </div>
+                    </div>
+                </td>
+                <td>${profile.age || 'N/A'}</td>
+                <td>${profile.gender || 'N/A'}</td>
+                <td>${profile.location || 'N/A'}</td>
+                <td>
+                    <span class="badge ${isActive ? 'success' : 'error'}">
+                        <span class="badge-dot"></span>
+                        ${isActive ? 'Active' : 'Inactive'}
+                    </span>
+                </td>
+                <td>
+                    <div class="action-btns">
+                        <button class="btn-action view" onclick="viewProfile('${profile._id}')" title="View Details">👁️</button>
+                        <button class="btn-action ${isActive ? 'delete' : 'approve'}" onclick="toggleProfileStatus('${profile._id}', ${!isActive})" title="${isActive ? 'Deactivate' : 'Activate'}">
+                            ${isActive ? '🔒' : '✅'}
+                        </button>
+                        <button class="btn-action delete" onclick="deleteProfile('${profile._id}')" title="Delete">🗑️</button>
+                    </div>
+                </td>
+            </tr>
+        `;
             }).join('');
         }
 
-        // Fetch All Users
         async function fetchUsers() {
             const tbody = document.getElementById('usersTableBody');
-            tbody.innerHTML = `
-                <tr>
-                    <td colspan="7" class="loading">
-                        <div class="spinner"></div>
-                        <div>Loading users...</div>
-                    </td>
-                </tr>
-            `;
+            tbody.innerHTML = '<tr><td colspan="7"><div class="loading-container"><div class="spinner"></div><div class="loading-text">Loading users...</div></div></td></tr>';
 
             try {
-                const response = await fetch(`${API_BASE_URL}/admin/users`, {
-                    headers: getHeaders()
-                });
-
+                const response = await fetch(`${API_BASE_URL}/admin/users`, { headers: getHeaders() });
                 if (response.ok) {
                     const data = await response.json();
-                    allUsers = data.users || data || [];
-                    renderUsers(allUsers);
-                } else {
-                    throw new Error('Failed to fetch users');
+                    allUsers = data.users || [];
+                    displayedUsers = allUsers;
+                    renderUsers(displayedUsers);
                 }
             } catch (error) {
-                console.error('Error fetching users:', error);
-                tbody.innerHTML = `
-                    <tr>
-                        <td colspan="7" class="empty-state">
-                            <div class="empty-icon">⚠️</div>
-                            <div>Failed to load users</div>
-                        </td>
-                    </tr>
-                `;
+                tbody.innerHTML = '<tr><td colspan="7"><div class="empty-state"><div class="empty-icon">⚠️</div><div class="empty-title">Failed to Load</div><div class="empty-text">Unable to fetch users. Please try again.</div></div></td></tr>';
             }
         }
 
-        // Fetch All Enquiries
-        async function fetchEnquiries() {
-            const tbody = document.getElementById('enquiriesTableBody');
-            tbody.innerHTML = `
-                <tr>
-                    <td colspan="7" class="loading">
-                        <div class="spinner"></div>
-                        <div>Loading enquiries...</div>
-                    </td>
-                </tr>
-            `;
-
-            try {
-                const response = await fetch(`${API_BASE_URL}/inquiries`, {
-                    headers: getHeaders()
-                });
-
-                if (response.ok) {
-                    const data = await response.json();
-                    const enquiries = data.inquiries || [];
-                    renderEnquiries(enquiries);
-                } else {
-                    throw new Error('Failed to fetch enquiries');
-                }
-            } catch (error) {
-                console.error('Error fetching enquiries:', error);
-                tbody.innerHTML = `
-                    <tr>
-                        <td colspan="7" class="empty-state">
-                            <div class="empty-icon">⚠️</div>
-                            <div>Failed to load enquiries</div>
-                        </td>
-                    </tr>
-                `;
-            }
-        }
-
-        // Render Enquiries Table
-        function renderEnquiries(enquiries) {
-            const tbody = document.getElementById('enquiriesTableBody');
-
-            if (enquiries.length === 0) {
-                tbody.innerHTML = `
-                    <tr>
-                        <td colspan="7" class="empty-state">
-                            <div class="empty-icon">📭</div>
-                            <div>No enquiries yet</div>
-                        </td>
-                    </tr>
-                `;
-                return;
-            }
-
-            tbody.innerHTML = enquiries.map(enquiry => {
-                const date = new Date(enquiry.createdAt).toLocaleDateString('en-US', {
-                    month: 'short',
-                    day: 'numeric',
-                    year: 'numeric'
-                });
-
-                const statusColors = {
-                    pending: 'pending',
-                    contacted: 'active',
-                    completed: 'active',
-                    rejected: 'inactive'
-                };
-
-                const statusClass = statusColors[enquiry.status] || 'pending';
-
-                return `
-                    <tr>
-                        <td>
-                            <div class="user-cell">
-                                <div class="user-avatar">${enquiry.userName.charAt(0).toUpperCase()}</div>
-                                <div class="user-info">
-                                    <div class="user-name">${enquiry.userName}</div>
-                                    <div class="user-email">${enquiry.userEmail}</div>
-                                </div>
-                            </div>
-                        </td>
-                        <td>${enquiry.profileName}</td>
-                        <td>${enquiry.userPhone}</td>
-                        <td>
-                            <div style="max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;" title="${enquiry.message}">
-                                ${enquiry.message}
-                            </div>
-                        </td>
-                        <td>
-                            <span class="status-badge ${statusClass}">
-                                <span class="status-dot"></span>
-                                ${enquiry.status}
-                            </span>
-                        </td>
-                        <td>${date}</td>
-                        <td>
-                            <div class="action-btns">
-                                <button class="btn-action btn-view" onclick="viewEnquiry('${enquiry._id}')" title="View Details">👁️</button>
-                                <button class="btn-action btn-delete" onclick="deleteEnquiry('${enquiry._id}')" title="Delete">🗑️</button>
-                            </div>
-                        </td>
-                    </tr>
-                `;
-            }).join('');
-        }
-
-        // View Enquiry Details
-        function viewEnquiry(enquiryId) {
-            fetch(`${API_BASE_URL}/inquiries/${enquiryId}`, {
-                headers: getHeaders()
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    const enquiry = data.inquiry;
-                    const details = `
-📧 ENQUIRY DETAILS
-
-User Information:
-Name: ${enquiry.userName}
-Email: ${enquiry.userEmail}
-Phone: ${enquiry.userPhone}
-
-Profile Interested In:
-${enquiry.profileName}
-
-Message:
-${enquiry.message}
-
-Status: ${enquiry.status}
-Submitted: ${new Date(enquiry.createdAt).toLocaleString()}
-                    `;
-                    alert(details);
-
-                    // Mark as read
-                    if (!enquiry.isRead) {
-                        markEnquiryAsRead(enquiryId);
-                    }
-                }
-            })
-            .catch(error => {
-                console.error('Error viewing enquiry:', error);
-                showToast('error', 'Error', 'Failed to load enquiry details');
-            });
-        }
-
-        // Mark Enquiry as Read
-        async function markEnquiryAsRead(enquiryId) {
-            try {
-                await fetch(`${API_BASE_URL}/inquiries/${enquiryId}`, {
-                    method: 'PUT',
-                    headers: {
-                        ...getHeaders(),
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({ isRead: true })
-                });
-            } catch (error) {
-                console.error('Error marking as read:', error);
-            }
-        }
-
-        // Delete Enquiry
-        async function deleteEnquiry(enquiryId) {
-            if (!confirm('Are you sure you want to delete this enquiry?')) {
-                return;
-            }
-
-            try {
-                const response = await fetch(`${API_BASE_URL}/inquiries/${enquiryId}`, {
-                    method: 'DELETE',
-                    headers: getHeaders()
-                });
-
-                const data = await response.json();
-
-                if (response.ok && data.success) {
-                    showToast('success', 'Deleted', 'Enquiry deleted successfully');
-                    fetchEnquiries();
-                    fetchDashboardStats();
-                } else {
-                    showToast('error', 'Error', data.msg || 'Failed to delete enquiry');
-                }
-            } catch (error) {
-                console.error('Error deleting enquiry:', error);
-                showToast('error', 'Error', 'Failed to delete enquiry');
-            }
-        }
-
-        // Render Users Table
         function renderUsers(users) {
             const tbody = document.getElementById('usersTableBody');
-
             if (users.length === 0) {
-                tbody.innerHTML = `
-                    <tr>
-                        <td colspan="7" class="empty-state">
-                            <div class="empty-icon">📭</div>
-                            <div>No users found</div>
-                        </td>
-                    </tr>
-                `;
+                tbody.innerHTML = '<tr><td colspan="7"><div class="empty-state"><div class="empty-icon">👥</div><div class="empty-title">No Users Found</div><div class="empty-text">No registered users yet.</div></div></td></tr>';
                 return;
             }
 
             tbody.innerHTML = users.map(user => {
                 const initials = user.fullName.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
-                const joinDate = new Date(user.createdAt).toLocaleDateString('en-US', {
-                    month: 'short',
-                    day: 'numeric',
-                    year: 'numeric'
-                });
-
+                const joinDate = new Date(user.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
                 return `
-                    <tr>
-                        <td>
-                            <div class="user-cell">
-                                <div class="user-avatar">${initials}</div>
-                                <div class="user-info">
-                                    <div class="user-name">${user.fullName}</div>
-                                    <div class="user-email">${user.email}</div>
-                                </div>
-                            </div>
-                        </td>
-                        <td>${user.gender || 'N/A'}</td>
-                        <td>${user.age || 'N/A'}</td>
-                        <td>${user.phone || 'N/A'}</td>
-                        <td>${joinDate}</td>
-                        <td>
-                            <span class="status-badge ${user.role === 'admin' ? 'active' : 'pending'}">
-                                ${user.role || 'user'}
-                            </span>
-                        </td>
-                        <td>
-                            <div class="action-btns">
-                                ${user.role !== 'admin' 
-                                    ? `<button class="btn-action btn-delete" onclick="deleteUser('${user._id}')" title="Delete">🗑️</button>`
-                                    : `<span style="color: var(--neutral); font-size: 0.85rem;">Protected</span>`
-                                }
-                            </div>
-                        </td>
-                    </tr>
-                `;
+            <tr>
+                <td>
+                    <div class="user-cell">
+                        <div class="user-avatar">${initials}</div>
+                        <div class="user-info">
+                            <div class="user-name">${user.fullName}</div>
+                            <div class="user-email">${user.email}</div>
+                        </div>
+                    </div>
+                </td>
+                <td>${user.gender || 'N/A'}</td>
+                <td>${user.age || 'N/A'}</td>
+                <td>${user.phone || 'N/A'}</td>
+                <td>${joinDate}</td>
+                <td>
+                    <span class="badge ${user.role === 'admin' ? 'info' : 'success'}">
+                        ${user.role || 'user'}
+                    </span>
+                </td>
+                <td>
+                    ${user.role !== 'admin'
+                        ? `<div class="action-btns"><button class="btn-action delete" onclick="deleteUser('${user._id}')" title="Delete">🗑️</button></div>`
+                        : '<span class="text-muted">Protected</span>'}
+                </td>
+            </tr>
+        `;
             }).join('');
         }
 
-        // View Profile
+        async function fetchAccessRequests() {
+            const tbody = document.getElementById('accessRequestsTableBody');
+            tbody.innerHTML = '<tr><td colspan="9"><div class="loading-container"><div class="spinner"></div><div class="loading-text">Loading requests...</div></div></td></tr>';
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/access-requests`, { headers: getHeaders() });
+                if (response.ok) {
+                    const data = await response.json();
+                    renderAccessRequests(data.requests || []);
+                }
+            } catch (error) {
+                tbody.innerHTML = '<tr><td colspan="9"><div class="empty-state"><div class="empty-icon">⚠️</div><div class="empty-title">Failed to Load</div><div class="empty-text">Unable to fetch requests. Please try again.</div></div></td></tr>';
+            }
+        }
+
+        function renderAccessRequests(requests) {
+            const tbody = document.getElementById('accessRequestsTableBody');
+            if (requests.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="9"><div class="empty-state"><div class="empty-icon">💌</div><div class="empty-title">No Requests Yet</div><div class="empty-text">Access requests will appear here.</div></div></td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = requests.map(request => {
+                const date = new Date(request.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+                const statusClass = { pending: 'pending', approved: 'success', rejected: 'error' }[request.status];
+                return `
+            <tr>
+                <td>
+                    <div class="user-cell">
+                        <div class="user-avatar">${request.userName.charAt(0).toUpperCase()}</div>
+                        <div class="user-info">
+                            <div class="user-name">${request.userName}</div>
+                            <div class="user-email">${request.userEmail}</div>
+                        </div>
+                    </div>
+                </td>
+                <td>${request.profileName}</td>
+                <td class="fw-600">₹${request.amountPaid}</td>
+                <td><strong>${request.utrNumber}</strong></td>
+                <td>${request.paymentMethod}</td>
+                <td>
+                    ${request.paymentProof
+                        ? `<button class="btn-action view" onclick="window.open('${request.paymentProof}', '_blank')" title="View Screenshot">🖼️</button>`
+                        : '<span class="text-muted">N/A</span>'}
+                </td>
+                <td>
+                    <span class="badge ${statusClass}">
+                        <span class="badge-dot"></span>
+                        ${request.status}
+                    </span>
+                </td>
+                <td>${date}</td>
+                <td>
+                    ${request.status === 'pending' ? `
+                        <div class="action-btns">
+                            <button class="btn-action approve" onclick="approveAccessRequest('${request._id}')" title="Approve">✅</button>
+                            <button class="btn-action delete" onclick="rejectAccessRequest('${request._id}')" title="Reject">❌</button>
+                        </div>
+                    ` : `<span class="text-muted">${request.status}</span>`}
+                </td>
+            </tr>
+        `;
+            }).join('');
+        }
+
+        async function approveAccessRequest(requestId) {
+            if (!confirm('Approve this access request? User will get full profile access.')) return;
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/access-requests/${requestId}/approve`, {
+                    method: 'PUT',
+                    headers: getHeaders()
+                });
+
+                const data = await response.json();
+                if (response.ok && data.success) {
+                    showToast('success', 'Approved! 💕', 'Access granted successfully');
+                    fetchAccessRequests();
+                    fetchDashboardStats();
+                } else {
+                    showToast('error', 'Error', data.msg || 'Failed to approve');
+                }
+            } catch (error) {
+                showToast('error', 'Error', 'Failed to approve request');
+            }
+        }
+
+        async function rejectAccessRequest(requestId) {
+            const reason = prompt('Enter rejection reason (optional):');
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/access-requests/${requestId}/reject`, {
+                    method: 'PUT',
+                    headers: { ...getHeaders(), 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ adminNotes: reason || '' })
+                });
+
+                const data = await response.json();
+                if (response.ok && data.success) {
+                    showToast('success', 'Rejected', 'Request rejected successfully');
+                    fetchAccessRequests();
+                    fetchDashboardStats();
+                } else {
+                    showToast('error', 'Error', data.msg || 'Failed to reject');
+                }
+            } catch (error) {
+                showToast('error', 'Error', 'Failed to reject request');
+            }
+        }
+
+        async function fetchPaymentSettings() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/payment-settings`);
+                const data = await response.json();
+
+                if (data.success) {
+                    const settings = data.settings;
+                    document.getElementById('settingsUpiId').value = settings.upiId;
+                    document.getElementById('settingsAccessFee').value = settings.accessFee;
+                    const preview = document.getElementById('previewQr');
+                    preview.src = settings.qrCodeUrl;
+                    preview.style.display = 'block';
+                    document.getElementById('currentSettings').innerHTML = `
+                <strong>UPI ID:</strong> ${settings.upiId} &nbsp;|&nbsp; 
+                <strong>Access Fee:</strong> ₹${settings.accessFee} &nbsp;|&nbsp; 
+                <strong>Last Updated:</strong> ${new Date().toLocaleDateString()}
+            `;
+                }
+            } catch (error) {
+                console.error('Error fetching payment settings:', error);
+            }
+        }
+
+        function previewImage(event, previewId) {
+            const file = event.target.files[0];
+            if (file) {
+                if (file.size > 5 * 1024 * 1024) {
+                    showToast('error', 'File Too Large', 'Please select an image under 5MB');
+                    event.target.value = '';
+                    return;
+                }
+                const reader = new FileReader();
+                reader.onload = e => {
+                    const preview = document.getElementById(previewId);
+                    preview.src = e.target.result;
+                    preview.style.display = 'block';
+                };
+                reader.readAsDataURL(file);
+            }
+        }
+
+        async function updatePaymentSettings(event) {
+            event.preventDefault();
+
+            const formData = new FormData();
+            formData.append('upiId', document.getElementById('settingsUpiId').value);
+            formData.append('accessFee', document.getElementById('settingsAccessFee').value);
+
+            const fileInput = document.getElementById('settingsQrCode');
+            if (fileInput.files[0]) {
+                formData.append('qrCode', fileInput.files[0]);
+            }
+
+            try {
+                const btn = event.target.querySelector('button[type="submit"]');
+                btn.disabled = true;
+                btn.innerHTML = '<span>⏳</span><span>Updating...</span>';
+
+                const response = await fetch(`${API_BASE_URL}/payment-settings`, {
+                    method: 'PUT',
+                    headers: getHeaders(),
+                    body: formData
+                });
+
+                const data = await response.json();
+
+                btn.disabled = false;
+                btn.innerHTML = '<span>💾</span><span>Update Settings</span>';
+
+                if (response.ok && data.success) {
+                    showToast('success', 'Updated! ✨', 'Payment settings updated successfully');
+                    fetchPaymentSettings();
+                } else {
+                    showToast('error', 'Error', data.msg || 'Failed to update');
+                }
+            } catch (error) {
+                showToast('error', 'Error', 'Failed to update settings');
+            }
+        }
+
         function viewProfile(profileId) {
             const profile = allProfiles.find(p => p._id === profileId);
             if (profile) {
-                const details = `
-Name: ${profile.name}
-Age: ${profile.age}
-Gender: ${profile.gender}
-Location: ${profile.location}
-Profession: ${profile.profession || 'N/A'}
-Education: ${profile.education || 'N/A'}
-Height: ${profile.height || 'N/A'}
-Income: ${profile.income || 'N/A'}
-
-Bio: ${profile.bio || 'No bio available'}
-                `;
+                const details = `Name: ${profile.name}\nAge: ${profile.age}\nGender: ${profile.gender}\nLocation: ${profile.location}\nProfession: ${profile.profession || 'N/A'}\nEducation: ${profile.education || 'N/A'}\nHeight: ${profile.height || 'N/A'}\n\nBio: ${profile.bio || 'No bio available'}`;
                 alert(details);
             }
         }
 
-        // Toggle Profile Status
         async function toggleProfileStatus(profileId, newStatus) {
             try {
                 const response = await fetch(`${API_BASE_URL}/profiles/${profileId}`, {
                     method: 'PUT',
-                    headers: {
-                        ...getHeaders(),
-                        'Content-Type': 'application/json'
-                    },
+                    headers: { ...getHeaders(), 'Content-Type': 'application/json' },
                     body: JSON.stringify({ isVerified: newStatus })
                 });
 
                 if (response.ok) {
-                    showToast('success', 'Updated', `Profile ${newStatus ? 'activated' : 'deactivated'} successfully`);
+                    showToast('success', 'Updated!', `Profile ${newStatus ? 'activated' : 'deactivated'} successfully`);
                     fetchProfiles();
                     fetchDashboardStats();
                 } else {
                     showToast('error', 'Error', 'Failed to update profile status');
                 }
             } catch (error) {
-                console.error('Error toggling status:', error);
-                showToast('error', 'Error', 'Failed to update profile status');
+                showToast('error', 'Error', 'Failed to update profile');
             }
         }
 
-        // Delete Profile
         async function deleteProfile(profileId) {
-            if (!confirm('Are you sure you want to delete this profile? This action cannot be undone.')) {
-                return;
-            }
+            if (!confirm('Delete this profile? This action cannot be undone.')) return;
 
             try {
                 const response = await fetch(`${API_BASE_URL}/profiles/${profileId}`, {
@@ -1483,23 +2806,19 @@ Bio: ${profile.bio || 'No bio available'}
                 });
 
                 if (response.ok) {
-                    showToast('success', 'Deleted', 'Profile deleted successfully');
+                    showToast('success', 'Deleted!', 'Profile deleted successfully');
                     fetchProfiles();
                     fetchDashboardStats();
                 } else {
                     showToast('error', 'Error', 'Failed to delete profile');
                 }
             } catch (error) {
-                console.error('Error deleting profile:', error);
                 showToast('error', 'Error', 'Failed to delete profile');
             }
         }
 
-        // Delete User
         async function deleteUser(userId) {
-            if (!confirm('Are you sure you want to delete this user? This will also delete their profile if they have one.')) {
-                return;
-            }
+            if (!confirm('Delete this user? This will also delete their profile if they have one.')) return;
 
             try {
                 const response = await fetch(`${API_BASE_URL}/admin/users/${userId}`, {
@@ -1508,76 +2827,101 @@ Bio: ${profile.bio || 'No bio available'}
                 });
 
                 if (response.ok) {
-                    showToast('success', 'Deleted', 'User deleted successfully');
+                    showToast('success', 'Deleted!', 'User deleted successfully');
                     fetchUsers();
                     fetchDashboardStats();
                 } else {
                     showToast('error', 'Error', 'Failed to delete user');
                 }
             } catch (error) {
-                console.error('Error deleting user:', error);
                 showToast('error', 'Error', 'Failed to delete user');
             }
         }
 
-        // Preview Image
-        function previewImage(event) {
-            const file = event.target.files[0];
-            if (file) {
-                if (file.size > 5 * 1024 * 1024) {
-                    showToast('error', 'File Too Large', 'Please select an image under 5MB');
-                    event.target.value = '';
-                    return;
-                }
-
-                const reader = new FileReader();
-                reader.onload = function(e) {
-                    const preview = document.getElementById('previewImg');
-                    preview.src = e.target.result;
-                    preview.style.display = 'block';
-                };
-                reader.readAsDataURL(file);
-            }
-        }
-
-        // Handle Add Profile
         async function handleAddProfile(event) {
             event.preventDefault();
 
             const formData = new FormData();
-            formData.append('name', document.getElementById('profileName').value);
-            formData.append('age', document.getElementById('profileAge').value);
-            formData.append('gender', document.getElementById('profileGender').value);
-            formData.append('location', document.getElementById('profileLocation').value);
 
-            const dob = document.getElementById('profileDob').value;
-            if (dob) formData.append('dob', dob);
+            // Basic Information (Required)
+            formData.append('name', document.getElementById('name').value);
+            formData.append('gender', document.getElementById('gender').value);
+            formData.append('age', document.getElementById('age').value);
+            formData.append('location', document.getElementById('location').value);
 
-            const profession = document.getElementById('profileProfession').value;
-            if (profession) formData.append('profession', profession);
+            // Optional Basic Info
+            const optionalBasic = ['dob', 'profession', 'education', 'height', 'bio'];
+            optionalBasic.forEach(field => {
+                const value = document.getElementById(field).value;
+                if (value) formData.append(field, value);
+            });
 
-            const education = document.getElementById('profileEducation').value;
-            if (education) formData.append('education', education);
+            // Contact Information
+            const contactFields = ['phoneNumber', 'whatsappNumber', 'email'];
+            contactFields.forEach(field => {
+                const value = document.getElementById(field).value;
+                if (value) formData.append(field, value);
+            });
 
-            const height = document.getElementById('profileHeight').value;
-            if (height) formData.append('height', height);
+            // Personal Details
+            const personalFields = ['income', 'caste', 'gotra', 'maritalStatus', 'motherTongue', 'religion'];
+            personalFields.forEach(field => {
+                const value = document.getElementById(field).value;
+                if (value) formData.append(field, value);
+            });
 
-            const income = document.getElementById('profileIncome').value;
-            if (income) formData.append('income', income);
+            // Physical Attributes
+            const physicalFields = ['bodyType', 'complexion', 'bloodGroup'];
+            physicalFields.forEach(field => {
+                const value = document.getElementById(field).value;
+                if (value) formData.append(field, value);
+            });
 
-            const bio = document.getElementById('profileBio').value;
-            if (bio) formData.append('bio', bio);
+            // Lifestyle
+            const lifestyleFields = ['diet', 'drinking', 'smoking'];
+            lifestyleFields.forEach(field => {
+                const value = document.getElementById(field).value;
+                if (value) formData.append(field, value);
+            });
 
-            const status = document.getElementById('profileStatus').value;
-            formData.append('isVerified', status === 'active');
+            // Family Details
+            const familyFields = ['familyType', 'fatherName', 'fatherOccupation', 'motherName', 'motherOccupation', 'siblings', 'familyIncome', 'familyLocation'];
+            familyFields.forEach(field => {
+                const value = document.getElementById(field).value;
+                if (value) formData.append(field, value);
+            });
+
+            // Horoscope Details
+            const horoscopeFields = ['birthPlace', 'birthTime', 'rashi', 'nakshatra', 'manglik'];
+            horoscopeFields.forEach(field => {
+                const value = document.getElementById(field).value;
+                if (value) formData.append(field, value);
+            });
+
+            // Partner Preferences
+            const partnerFields = ['partnerAgeMin', 'partnerAgeMax', 'partnerHeightMin', 'partnerHeightMax', 'partnerMaritalStatus', 'partnerEducation', 'partnerProfession', 'partnerLocation', 'partnerIncome'];
+            partnerFields.forEach(field => {
+                const value = document.getElementById(field).value;
+                if (value) formData.append(field, value);
+            });
+
+            // Profile Settings
+            formData.append('isPremium', document.getElementById('isPremium').checked);
+            formData.append('isVerified', document.getElementById('isVerified').checked);
+            formData.append('isFeatured', document.getElementById('isFeatured').checked);
             formData.append('createdByAdmin', 'true');
 
-            const fileInput = document.getElementById('profilePhoto');
+            // Image
+            const fileInput = document.getElementById('imageUrl');
             if (fileInput.files[0]) {
                 formData.append('image', fileInput.files[0]);
             }
 
             try {
+                const btn = event.target.querySelector('button[type="submit"]');
+                btn.disabled = true;
+                btn.innerHTML = '<span>⏳</span><span>Creating...</span>';
+
                 const response = await fetch(`${API_BASE_URL}/admin/create-profile`, {
                     method: 'POST',
                     headers: getHeaders(),
@@ -1586,28 +2930,73 @@ Bio: ${profile.bio || 'No bio available'}
 
                 const data = await response.json();
 
+                btn.disabled = false;
+                btn.innerHTML = '<span>✨</span><span>Create Profile</span>';
+
                 if (response.ok && data.success) {
-                    showToast('success', 'Profile Created', 'New profile has been added successfully');
-                    resetForm();
+                    showToast('success', 'Success! 💕', 'Profile created successfully');
+                    resetForm('addProfileForm', 'previewImg');
                     fetchProfiles();
                     fetchDashboardStats();
-                    switchTab('profiles');
+                    setTimeout(() => {
+                        document.querySelector('.nav-item[onclick*="profiles"]').click();
+                    }, 1500);
                 } else {
                     showToast('error', 'Error', data.msg || 'Failed to create profile');
                 }
             } catch (error) {
-                console.error('Error creating profile:', error);
                 showToast('error', 'Error', 'Failed to create profile');
             }
         }
 
-        // Reset Form
-        function resetForm() {
-            document.getElementById('addProfileForm').reset();
-            document.getElementById('previewImg').style.display = 'none';
+        function resetForm(formId, previewId) {
+            document.getElementById(formId).reset();
+            if (previewId) {
+                document.getElementById(previewId).style.display = 'none';
+            }
         }
 
-        // Logout
+        function searchProfiles() {
+            const searchTerm = document.getElementById('searchProfiles').value.toLowerCase();
+            if (!searchTerm) {
+                displayedProfiles = allProfiles;
+            } else {
+                displayedProfiles = allProfiles.filter(profile =>
+                    profile.name.toLowerCase().includes(searchTerm) ||
+                    (profile.location && profile.location.toLowerCase().includes(searchTerm)) ||
+                    (profile.profession && profile.profession.toLowerCase().includes(searchTerm))
+                );
+            }
+            renderProfiles(displayedProfiles);
+        }
+
+        function searchUsers() {
+            const searchTerm = document.getElementById('searchUsers').value.toLowerCase();
+            if (!searchTerm) {
+                displayedUsers = allUsers;
+            } else {
+                displayedUsers = allUsers.filter(user =>
+                    user.fullName.toLowerCase().includes(searchTerm) ||
+                    user.email.toLowerCase().includes(searchTerm) ||
+                    (user.phone && user.phone.includes(searchTerm))
+                );
+            }
+            renderUsers(displayedUsers);
+        }
+
+        function handleGlobalSearch() {
+            const searchTerm = document.getElementById('globalSearch').value.toLowerCase();
+            if (!searchTerm) return;
+
+            if (currentSection === 'profiles') {
+                document.getElementById('searchProfiles').value = searchTerm;
+                searchProfiles();
+            } else if (currentSection === 'users') {
+                document.getElementById('searchUsers').value = searchTerm;
+                searchUsers();
+            }
+        }
+
         function handleLogout() {
             if (confirm('Are you sure you want to logout?')) {
                 sessionStorage.clear();
@@ -1626,20 +3015,26 @@ Bio: ${profile.bio || 'No bio available'}
                 return;
             }
 
-            // Update admin info
-            const adminName = sessionStorage.getItem('userName') || 'Admin';
-            document.getElementById('adminName').textContent = adminName;
-            const initials = adminName.split(' ').map(n => n[0]).join('').toUpperCase();
-            document.getElementById('adminAvatar').textContent = initials;
+            const adminName = sessionStorage.getItem('userName') || 'Admin User';
+            document.getElementById('sidebarName').textContent = adminName;
+            document.getElementById('welcomeName').textContent = adminName.split(' ')[0];
 
-            // Load initial data
+            const initials = adminName.split(' ').map(n => n[0]).join('').toUpperCase().substring(0, 2);
+            document.getElementById('sidebarAvatar').textContent = initials;
+
             fetchDashboardStats();
-            fetchProfiles();
+            setInterval(fetchDashboardStats, 60000);
 
-            // Auto-refresh stats every 30 seconds
-            setInterval(fetchDashboardStats, 30000);
+            // Close sidebar on window resize
+            window.addEventListener('resize', () => {
+                if (window.innerWidth > 1024) {
+                    document.getElementById('sidebar').classList.remove('open');
+                    document.querySelector('.sidebar-overlay').classList.remove('active');
+                }
+            });
         });
     </script>
 
 </body>
+
 </html>
