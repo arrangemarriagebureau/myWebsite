@@ -4,9 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Browse Profiles - Marriage Bureau</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+    <title>Browse Profiles - Find Your Perfect Match</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
         rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css">
+
     <style>
         * {
             margin: 0;
@@ -15,59 +21,101 @@
         }
 
         :root {
-            --primary: #8B1538;
-            --primary-light: #A91B4A;
-            --accent: #D4AF37;
-            --dark: #1a1a1a;
+            --maroon: #8B1538;
+            --maroon-light: #A91B4A;
+            --maroon-dark: #6B0F2A;
+            --gold: #D4AF37;
+            --gold-light: #E6C550;
+            --rose: #E91E63;
+            --rose-light: #F8BBD0;
+            --cream: #FAF8F5;
+            --warm-white: #FFF8F0;
+            --dark: #1A0F0F;
             --neutral: #666;
-            --light-bg: #F8F9FA;
-            --white: #FFFFFF;
             --success: #27AE60;
             --error: #E74C3C;
-            --shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+            --shadow: 0 4px 20px rgba(139, 21, 56, 0.12);
+            --shadow-lg: 0 10px 40px rgba(139, 21, 56, 0.18);
+        }
+
+        html {
+            scroll-behavior: smooth;
         }
 
         body {
-            font-family: 'Poppins', sans-serif;
-            background: var(--light-bg);
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--cream);
             color: var(--dark);
-            line-height: 1.6;
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 700;
         }
 
         /* Header */
         .header {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
-            color: white;
-            padding: 1rem 0;
-            box-shadow: var(--shadow);
             position: sticky;
             top: 0;
             z-index: 1000;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(139, 21, 56, 0.1);
+            box-shadow: var(--shadow);
         }
 
         .header-container {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 0 2rem;
+            padding: 1rem 2rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            flex-wrap: wrap;
-            gap: 1rem;
+            gap: 2rem;
         }
 
-        .logo {
-            font-size: 1.5rem;
-            font-weight: 700;
+        .brand {
+            font-family: 'Playfair Display', serif;
+            font-size: 1.8rem;
+            font-weight: 800;
+            color: var(--maroon);
             display: flex;
             align-items: center;
-            gap: 0.5rem;
+            gap: 0.75rem;
             text-decoration: none;
-            color: white;
+            transition: all 0.3s;
         }
 
-        .logo-icon {
-            font-size: 2rem;
+        .brand-icon {
+            font-size: 2.2rem;
+            animation: heartBeat 2s ease-in-out infinite;
+        }
+
+        @keyframes heartBeat {
+
+            0%,
+            100% {
+                transform: scale(1);
+            }
+
+            10%,
+            30% {
+                transform: scale(1.1);
+            }
+
+            20% {
+                transform: scale(0.95);
+            }
+        }
+
+        .brand:hover {
+            color: var(--gold);
+            transform: translateY(-2px);
         }
 
         .nav-links {
@@ -77,195 +125,282 @@
         }
 
         .btn-nav {
-            background: rgba(255, 255, 255, 0.2);
-            color: white;
-            padding: 0.6rem 1.5rem;
-            border-radius: 25px;
+            background: linear-gradient(135deg, rgba(139, 21, 56, 0.08), rgba(212, 175, 55, 0.08));
+            color: var(--maroon);
+            padding: 0.75rem 1.75rem;
+            border-radius: 50px;
             text-decoration: none;
-            font-weight: 500;
+            font-weight: 700;
+            font-size: 0.95rem;
             transition: all 0.3s;
-            border: 1px solid rgba(255, 255, 255, 0.3);
+            border: 2px solid rgba(139, 21, 56, 0.12);
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .btn-nav:hover {
-            background: var(--accent);
-            color: var(--dark);
+            background: linear-gradient(135deg, var(--maroon), var(--maroon-light));
+            color: white;
+            border-color: var(--maroon);
             transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(139, 21, 56, 0.25);
         }
 
-        /* Hero Section */
-        .hero {
-            background: linear-gradient(135deg, var(--primary), var(--accent));
+        /* Hero Banner */
+        .hero-banner {
+            background: linear-gradient(135deg, var(--maroon) 0%, var(--maroon-light) 50%, var(--rose) 100%);
             color: white;
             text-align: center;
-            padding: 3rem 2rem;
-            margin-bottom: 2rem;
+            padding: 4rem 2rem;
+            position: relative;
+            overflow: hidden;
         }
 
-        .hero h1 {
-            font-size: 2.5rem;
-            margin-bottom: 0.5rem;
+        .hero-banner::before {
+            content: '💕';
+            position: absolute;
+            font-size: 20rem;
+            opacity: 0.05;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            animation: heartBeat 3s ease-in-out infinite;
         }
 
-        .hero p {
-            font-size: 1.1rem;
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .hero-label {
+            display: inline-block;
+            background: rgba(212, 175, 55, 0.2);
+            backdrop-filter: blur(10px);
+            color: var(--gold-light);
+            padding: 0.5rem 1.5rem;
+            border-radius: 50px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            font-size: 0.9rem;
+            font-weight: 700;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-bottom: 1.5rem;
+        }
+
+        .hero-banner h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+            letter-spacing: -1px;
+        }
+
+        .hero-banner p {
+            font-size: 1.25rem;
             opacity: 0.95;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
         }
 
         /* Container */
         .container {
             max-width: 1400px;
             margin: 0 auto;
-            padding: 0 2rem 3rem;
+            padding: 3rem 2rem;
         }
 
         /* Filters */
         .filters {
             background: white;
-            padding: 2rem;
-            border-radius: 15px;
+            padding: 2.5rem;
+            border-radius: 25px;
             box-shadow: var(--shadow);
-            margin-bottom: 2rem;
+            margin-bottom: 3rem;
+            border: 1px solid rgba(139, 21, 56, 0.08);
         }
 
         .filters-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 1.5rem;
+            margin-bottom: 2rem;
             flex-wrap: wrap;
-            gap: 1rem;
+            gap: 1.5rem;
         }
 
         .filters-title {
-            font-size: 1.5rem;
-            font-weight: 600;
-            color: var(--primary);
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--maroon);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
         }
 
         .btn-reset {
-            background: transparent;
-            border: 2px solid var(--primary);
-            color: var(--primary);
-            padding: 0.6rem 1.5rem;
-            border-radius: 25px;
+            background: white;
+            border: 2px solid var(--maroon);
+            color: var(--maroon);
+            padding: 0.75rem 2rem;
+            border-radius: 50px;
             cursor: pointer;
-            font-weight: 500;
+            font-weight: 700;
+            font-size: 0.95rem;
             transition: all 0.3s;
         }
 
         .btn-reset:hover {
-            background: var(--primary);
+            background: var(--maroon);
             color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(139, 21, 56, 0.25);
         }
 
         .filter-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1.5rem;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.75rem;
         }
 
         .filter-group {
             display: flex;
             flex-direction: column;
-            gap: 0.5rem;
+            gap: 0.75rem;
         }
 
         .filter-label {
-            font-weight: 500;
+            font-weight: 700;
             color: var(--dark);
-            font-size: 0.9rem;
+            font-size: 0.95rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
         }
 
         .filter-select {
-            padding: 0.75rem;
-            border: 2px solid #ddd;
-            border-radius: 8px;
+            padding: 0.875rem 1rem;
+            border: 2px solid rgba(139, 21, 56, 0.15);
+            border-radius: 12px;
             font-size: 0.95rem;
-            transition: border-color 0.3s;
+            font-family: inherit;
+            font-weight: 500;
+            transition: all 0.3s;
+            background: var(--warm-white);
         }
 
         .filter-select:focus {
             outline: none;
-            border-color: var(--primary);
+            border-color: var(--maroon);
+            background: white;
+            box-shadow: 0 0 0 4px rgba(139, 21, 56, 0.08);
         }
 
-        /* Results Info */
-        .results-info {
+        /* Results Bar */
+        .results-bar {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 2rem;
+            margin-bottom: 2.5rem;
+            padding: 1.5rem;
+            background: white;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(139, 21, 56, 0.08);
         }
 
         .results-count {
-            font-size: 1.1rem;
+            font-size: 1.15rem;
+            font-weight: 600;
             color: var(--neutral);
         }
 
         .count-number {
-            color: var(--primary);
-            font-weight: 700;
-            font-size: 1.3rem;
+            color: var(--maroon);
+            font-weight: 800;
+            font-size: 2rem;
+            font-family: 'Playfair Display', serif;
+            margin: 0 0.25rem;
         }
 
         /* Profiles Grid */
         .profiles-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
-            gap: 2rem;
+            gap: 1.75rem;
         }
 
         /* Profile Card */
         .profile-card {
             background: white;
-            border-radius: 15px;
+            border-radius: 18px;
             overflow: hidden;
             box-shadow: var(--shadow);
-            transition: all 0.4s;
-            display: flex;
-            flex-direction: column;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(139, 21, 56, 0.08);
+            position: relative;
+        }
+
+        .profile-card::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(139, 21, 56, 0.03), rgba(212, 175, 55, 0.03));
+            opacity: 0;
+            transition: opacity 0.4s;
+            pointer-events: none;
+            border-radius: 18px;
+        }
+
+        .profile-card:hover::before {
+            opacity: 1;
         }
 
         .profile-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-lg);
+            border-color: var(--gold);
         }
 
         .profile-image {
             position: relative;
-            height: 320px;
+            height: 280px;
             overflow: hidden;
+            background: linear-gradient(135deg, #f5f5f5, #e8e8e8);
         }
 
         .profile-image img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            transition: transform 0.4s;
+            transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
         .profile-card:hover .profile-image img {
-            transform: scale(1.1);
+            transform: scale(1.08);
         }
 
         .profile-badge {
             position: absolute;
             top: 1rem;
             right: 1rem;
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
             padding: 0.4rem 1rem;
-            border-radius: 20px;
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--primary);
+            border-radius: 50px;
+            font-size: 0.8125rem;
+            font-weight: 700;
+            color: var(--maroon);
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.12);
+            border: 2px solid rgba(139, 21, 56, 0.08);
         }
 
         .like-btn {
             position: absolute;
             top: 1rem;
             left: 1rem;
-            background: rgba(255, 255, 255, 0.95);
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
             border: none;
             width: 40px;
             height: 40px;
@@ -276,6 +411,7 @@
             display: flex;
             align-items: center;
             justify-content: center;
+            box-shadow: 0 3px 12px rgba(0, 0, 0, 0.12);
         }
 
         .like-btn:hover {
@@ -289,27 +425,30 @@
 
         .profile-content {
             padding: 1.5rem;
-            flex: 1;
-            display: flex;
-            flex-direction: column;
+        }
+
+        .profile-header {
+            margin-bottom: 1.25rem;
         }
 
         .profile-name {
             font-size: 1.4rem;
-            font-weight: 600;
-            color: var(--primary);
-            margin-bottom: 0.25rem;
+            font-weight: 700;
+            color: var(--maroon);
+            margin-bottom: 0.375rem;
+            letter-spacing: -0.3px;
+            line-height: 1.3;
         }
 
         .profile-id {
-            font-size: 0.8rem;
-            color: var(--neutral);
-            margin-bottom: 1rem;
+            font-size: 0.75rem;
+            color: var(--gold);
+            font-weight: 700;
+            letter-spacing: 0.5px;
         }
 
         .profile-info {
-            flex: 1;
-            margin-bottom: 1rem;
+            margin-bottom: 1.25rem;
         }
 
         .info-item {
@@ -317,20 +456,30 @@
             align-items: center;
             gap: 0.75rem;
             margin-bottom: 0.75rem;
-            padding: 0.5rem;
-            background: var(--light-bg);
-            border-radius: 8px;
+            padding: 0.75rem;
+            background: linear-gradient(135deg, var(--warm-white), var(--cream));
+            border-radius: 10px;
+            transition: all 0.3s;
+            border-left: 3px solid transparent;
+        }
+
+        .info-item:hover {
+            background: white;
+            border-left-color: var(--gold);
+            transform: translateX(3px);
         }
 
         .info-icon {
             font-size: 1.1rem;
             width: 28px;
+            text-align: center;
             flex-shrink: 0;
         }
 
         .info-text {
             color: var(--dark);
-            font-size: 0.9rem;
+            font-size: 0.875rem;
+            font-weight: 600;
         }
 
         .profile-actions {
@@ -340,12 +489,12 @@
         }
 
         .btn-action {
-            padding: 0.75rem 1rem;
+            padding: 0.875rem 0.75rem;
             border: none;
-            border-radius: 8px;
+            border-radius: 10px;
             cursor: pointer;
-            font-weight: 600;
-            font-size: 0.9rem;
+            font-weight: 700;
+            font-size: 0.875rem;
             transition: all 0.3s;
             display: flex;
             align-items: center;
@@ -354,208 +503,389 @@
         }
 
         .btn-view {
-            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            background: linear-gradient(135deg, var(--maroon), var(--maroon-light));
             color: white;
+            box-shadow: 0 3px 12px rgba(139, 21, 56, 0.2);
         }
 
         .btn-view:hover {
             transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(139, 21, 56, 0.3);
+            box-shadow: 0 6px 20px rgba(139, 21, 56, 0.3);
         }
 
         .btn-inquiry {
             background: white;
-            color: var(--primary);
-            border: 2px solid var(--primary);
+            color: var(--maroon);
+            border: 2px solid var(--maroon);
         }
 
         .btn-inquiry:hover {
-            background: var(--primary);
+            background: var(--maroon);
             color: white;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(139, 21, 56, 0.2);
         }
 
-        /* Modal */
+        .btn-inquiry:disabled {
+            background: var(--success) !important;
+            color: white !important;
+            border-color: var(--success) !important;
+            cursor: default;
+            opacity: 0.9;
+        }
+
+        /* Modal - Same styles as before */
         .modal {
             display: none;
             position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.7);
+            inset: 0;
+            background: rgba(0, 0, 0, 0.75);
+            backdrop-filter: blur(5px);
             z-index: 2000;
             overflow-y: auto;
+            padding: 2rem;
         }
 
         .modal.active {
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 2rem;
+            animation: fadeIn 0.3s ease-out;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+
+            to {
+                opacity: 1;
+            }
         }
 
         .modal-content {
             background: white;
-            border-radius: 20px;
-            max-width: 800px;
+            border-radius: 30px;
+            max-width: 900px;
             width: 100%;
             max-height: 90vh;
             overflow-y: auto;
+            animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .modal-header {
-            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            background: linear-gradient(135deg, var(--maroon), var(--maroon-light));
             color: white;
-            padding: 2rem;
-            border-radius: 20px 20px 0 0;
+            padding: 2.5rem;
+            border-radius: 30px 30px 0 0;
             position: relative;
         }
 
         .modal-close {
             position: absolute;
-            top: 1rem;
-            right: 1rem;
+            top: 1.5rem;
+            right: 1.5rem;
             background: rgba(255, 255, 255, 0.2);
+            backdrop-filter: blur(10px);
             border: none;
-            width: 40px;
-            height: 40px;
+            width: 45px;
+            height: 45px;
             border-radius: 50%;
             color: white;
-            font-size: 1.5rem;
+            font-size: 1.75rem;
             cursor: pointer;
             transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .modal-close:hover {
-            background: var(--accent);
-            transform: rotate(90deg);
+            background: var(--gold);
+            color: var(--dark);
+            transform: rotate(90deg) scale(1.1);
         }
 
         .modal-title {
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
+            font-size: 2.5rem;
+            margin-bottom: 0.75rem;
+            text-shadow: 0 2px 15px rgba(0, 0, 0, 0.2);
+            letter-spacing: -1px;
         }
 
         .modal-subtitle {
+            font-size: 1.1rem;
             opacity: 0.95;
         }
 
         .modal-body {
-            padding: 2rem;
+            padding: 2.5rem;
         }
 
         .detail-section {
-            margin-bottom: 2rem;
+            margin-bottom: 2.5rem;
         }
 
         .section-title {
-            font-size: 1.3rem;
-            font-weight: 600;
-            color: var(--primary);
-            margin-bottom: 1rem;
-            padding-bottom: 0.5rem;
-            border-bottom: 2px solid var(--light-bg);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--maroon);
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.75rem;
+            border-bottom: 3px solid var(--cream);
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
         }
 
         .detail-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 1rem;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.25rem;
         }
 
         .detail-item {
-            background: var(--light-bg);
-            padding: 1rem;
-            border-radius: 10px;
-            border-left: 4px solid var(--accent);
+            background: var(--warm-white);
+            padding: 1.25rem;
+            border-radius: 15px;
+            border-left: 4px solid var(--gold);
+            transition: all 0.3s;
+        }
+
+        .detail-item:hover {
+            background: white;
+            transform: translateY(-3px);
+            box-shadow: var(--shadow);
         }
 
         .detail-label {
-            font-size: 0.85rem;
+            font-size: 0.875rem;
             color: var(--neutral);
-            margin-bottom: 0.25rem;
+            margin-bottom: 0.5rem;
+            font-weight: 600;
         }
 
         .detail-value {
-            font-weight: 600;
+            font-weight: 700;
             color: var(--dark);
+            font-size: 1.05rem;
+        }
+
+        .locked-section {
+            text-align: center;
+            padding: 3rem 2rem;
+            background: linear-gradient(135deg, #fff5e6 0%, #ffe8cc 100%);
+            border-radius: 20px;
+            border: 3px dashed var(--gold);
+        }
+
+        .locked-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .locked-section h3 {
+            color: var(--dark);
+            margin-bottom: 1rem;
+            font-size: 2rem;
+        }
+
+        .locked-section p {
+            color: var(--neutral);
+            margin-bottom: 2rem;
+            font-size: 1.1rem;
         }
 
         .modal-footer {
-            padding: 1.5rem 2rem;
-            background: var(--light-bg);
+            padding: 2rem 2.5rem;
+            background: var(--cream);
             display: flex;
             justify-content: flex-end;
-            gap: 1rem;
+            gap: 1.25rem;
+            border-radius: 0 0 30px 30px;
         }
 
         .btn-modal {
-            padding: 0.75rem 2rem;
+            padding: 1rem 2.5rem;
             border: none;
-            border-radius: 10px;
+            border-radius: 50px;
             cursor: pointer;
-            font-weight: 600;
+            font-weight: 700;
+            font-size: 0.95rem;
             transition: all 0.3s;
         }
 
         .btn-modal-primary {
-            background: linear-gradient(135deg, var(--primary), var(--primary-light));
+            background: linear-gradient(135deg, var(--maroon), var(--maroon-light));
             color: white;
+            box-shadow: 0 4px 15px rgba(139, 21, 56, 0.25);
         }
 
         .btn-modal-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 5px 15px rgba(139, 21, 56, 0.3);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(139, 21, 56, 0.35);
         }
 
         .btn-modal-secondary {
             background: white;
-            border: 2px solid var(--primary);
-            color: var(--primary);
+            border: 2px solid var(--maroon);
+            color: var(--maroon);
         }
 
         .btn-modal-secondary:hover {
-            background: var(--primary);
+            background: var(--maroon);
             color: white;
         }
 
-        /* Inquiry Modal */
-        .inquiry-form {
+        /* Payment Modal Styles */
+        .payment-info {
+            background: var(--warm-white);
+            padding: 2rem;
+            border-radius: 20px;
+            margin-bottom: 2rem;
+            border: 2px solid rgba(139, 21, 56, 0.1);
+        }
+
+        .payment-info h3 {
+            color: var(--maroon);
+            margin-bottom: 1.5rem;
+        }
+
+        .payment-detail {
             display: flex;
-            flex-direction: column;
-            gap: 1.5rem;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1.25rem;
+            background: white;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+        }
+
+        .payment-label {
+            font-weight: 700;
+            color: var(--dark);
+            font-size: 1.1rem;
+        }
+
+        .payment-value {
+            font-family: 'Playfair Display', serif;
+            font-size: 2rem;
+            font-weight: 800;
+            color: var(--maroon);
+        }
+
+        .payment-method-selector {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .method-option {
+            padding: 1.5rem;
+            border: 3px solid var(--border);
+            border-radius: 15px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s;
+            background: white;
+        }
+
+        .method-option:hover {
+            border-color: var(--gold);
+            transform: translateY(-3px);
+        }
+
+        .method-option.selected {
+            border-color: var(--maroon);
+            background: linear-gradient(135deg, rgba(139, 21, 56, 0.05), rgba(212, 175, 55, 0.05));
+        }
+
+        .method-icon {
+            font-size: 2.5rem;
+            margin-bottom: 0.75rem;
         }
 
         .form-group {
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
+            margin-bottom: 1.75rem;
         }
 
         .form-label {
-            font-weight: 500;
+            font-weight: 700;
             color: var(--dark);
+            margin-bottom: 0.75rem;
+            display: block;
+            font-size: 0.95rem;
         }
 
         .form-input,
         .form-textarea {
-            padding: 0.75rem;
-            border: 2px solid #ddd;
-            border-radius: 8px;
+            width: 100%;
+            padding: 1rem 1.25rem;
+            border: 2px solid rgba(139, 21, 56, 0.15);
+            border-radius: 12px;
             font-family: inherit;
             font-size: 0.95rem;
-            transition: border-color 0.3s;
+            font-weight: 500;
+            transition: all 0.3s;
+            background: var(--warm-white);
         }
 
         .form-input:focus,
         .form-textarea:focus {
             outline: none;
-            border-color: var(--primary);
+            border-color: var(--maroon);
+            background: white;
+            box-shadow: 0 0 0 4px rgba(139, 21, 56, 0.08);
         }
 
         .form-textarea {
             resize: vertical;
-            min-height: 100px;
+            min-height: 120px;
+        }
+
+        .copy-btn {
+            margin-left: 1rem;
+            padding: 1rem 1.5rem;
+            background: var(--gold);
+            color: var(--dark);
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-weight: 700;
+            transition: all 0.3s;
+        }
+
+        .copy-btn:hover {
+            background: var(--gold-light);
+            transform: translateY(-2px);
+        }
+
+        .qr-code-container {
+            text-align: center;
+            padding: 2rem;
+            background: white;
+            border-radius: 20px;
+            border: 2px solid rgba(139, 21, 56, 0.1);
+        }
+
+        .qr-code-image {
+            max-width: 300px;
+            margin: 1.5rem auto;
+            border-radius: 15px;
+            box-shadow: var(--shadow);
         }
 
         /* Toast */
@@ -571,19 +901,20 @@
 
         .toast {
             background: white;
-            padding: 1rem 1.5rem;
-            border-radius: 10px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.2);
+            padding: 1.25rem 1.75rem;
+            border-radius: 15px;
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
             display: flex;
             align-items: center;
-            gap: 1rem;
-            min-width: 300px;
-            animation: slideIn 0.3s ease-out;
+            gap: 1.25rem;
+            min-width: 350px;
+            animation: slideIn 0.4s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+            border: 2px solid;
         }
 
         @keyframes slideIn {
             from {
-                transform: translateX(400px);
+                transform: translateX(500px);
                 opacity: 0;
             }
 
@@ -594,15 +925,19 @@
         }
 
         .toast.success {
-            border-left: 4px solid var(--success);
+            border-color: var(--success);
         }
 
         .toast.error {
-            border-left: 4px solid var(--error);
+            border-color: var(--error);
+        }
+
+        .toast.info {
+            border-color: #3b82f6;
         }
 
         .toast-icon {
-            font-size: 1.5rem;
+            font-size: 1.75rem;
         }
 
         .toast-content {
@@ -610,8 +945,9 @@
         }
 
         .toast-title {
-            font-weight: 600;
+            font-weight: 700;
             margin-bottom: 0.25rem;
+            font-size: 1rem;
         }
 
         .toast-message {
@@ -622,25 +958,36 @@
         .toast-close {
             background: none;
             border: none;
-            font-size: 1.5rem;
+            font-size: 1.75rem;
             cursor: pointer;
             color: var(--neutral);
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        .toast-close:hover {
+            background: var(--cream);
         }
 
         /* Loading */
         .loading {
             text-align: center;
-            padding: 3rem;
+            padding: 5rem 2rem;
         }
 
         .spinner {
-            width: 50px;
-            height: 50px;
-            border: 4px solid var(--light-bg);
-            border-top-color: var(--primary);
+            width: 60px;
+            height: 60px;
+            border: 5px solid var(--cream);
+            border-top-color: var(--maroon);
             border-radius: 50%;
-            animation: spin 1s linear infinite;
-            margin: 0 auto 1rem;
+            animation: spin 0.8s linear infinite;
+            margin: 0 auto 1.5rem;
         }
 
         @keyframes spin {
@@ -649,81 +996,349 @@
             }
         }
 
-        /* Empty State */
-        .empty-state {
-            text-align: center;
-            padding: 3rem;
+        .loading-text {
+            font-size: 1.1rem;
+            font-weight: 600;
             color: var(--neutral);
         }
 
+        /* Empty State */
+        .empty-state {
+            text-align: center;
+            padding: 5rem 2rem;
+        }
+
         .empty-icon {
-            font-size: 4rem;
+            font-size: 5rem;
+            margin-bottom: 1.5rem;
+            opacity: 0.4;
+        }
+
+        .empty-title {
+            font-size: 1.75rem;
+            font-weight: 700;
+            color: var(--dark);
             margin-bottom: 1rem;
-            opacity: 0.5;
+        }
+
+        .empty-text {
+            font-size: 1.1rem;
+            color: var(--neutral);
         }
 
         /* Responsive */
+        @media (max-width: 1200px) {
+            .profiles-grid {
+                grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+                gap: 1.5rem;
+            }
+        }
+
+        @media (max-width: 991px) {
+            .hero-banner h1 {
+                font-size: 2.8rem;
+            }
+
+            .profiles-grid {
+                grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+                gap: 1.25rem;
+            }
+
+            .nav-links {
+                gap: 0.5rem;
+            }
+
+            .btn-nav {
+                padding: 0.65rem 1.25rem;
+                font-size: 0.875rem;
+            }
+        }
+
         @media (max-width: 768px) {
             .header-container {
-                padding: 0 1rem;
+                padding: 0.875rem 1rem;
+            }
+
+            .brand {
+                font-size: 1.5rem;
+            }
+
+            .brand-icon {
+                font-size: 1.8rem;
             }
 
             .container {
-                padding: 0 1rem 2rem;
+                padding: 2rem 1rem;
             }
 
-            .hero h1 {
-                font-size: 2rem;
+            .hero-banner {
+                padding: 2.5rem 1.25rem;
+            }
+
+            .hero-banner h1 {
+                font-size: 2.2rem;
+            }
+
+            .hero-banner p {
+                font-size: 1.05rem;
             }
 
             .filters {
                 padding: 1.5rem;
+                border-radius: 20px;
+            }
+
+            .filters-title {
+                font-size: 1.4rem;
             }
 
             .filter-grid {
                 grid-template-columns: 1fr;
+                gap: 1.25rem;
+            }
+
+            .results-bar {
+                padding: 1.25rem;
+            }
+
+            .results-count {
+                font-size: 1rem;
+            }
+
+            .count-number {
+                font-size: 1.75rem;
             }
 
             .profiles-grid {
-                grid-template-columns: 1fr;
+                grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+                gap: 1.5rem;
+            }
+
+            .profile-image {
+                height: 300px;
             }
 
             .profile-actions {
                 grid-template-columns: 1fr;
+                gap: 0.625rem;
+            }
+
+            .modal {
+                padding: 0.75rem;
             }
 
             .modal-content {
-                margin: 1rem;
+                border-radius: 25px;
             }
 
             .modal-header,
-            .modal-body {
-                padding: 1.5rem;
+            .modal-body,
+            .modal-footer {
+                padding: 1.75rem;
+            }
+
+            .modal-title {
+                font-size: 2rem;
+            }
+
+            .payment-method-selector {
+                grid-template-columns: 1fr;
+                gap: 0.875rem;
             }
 
             .toast-container {
                 right: 1rem;
                 left: 1rem;
+                top: 1rem;
             }
 
             .toast {
                 min-width: auto;
             }
-        }
-                .navbar-brand {
-            font-family: 'Cormorant Garamond', serif;
-            font-size: 1.8rem;
-            font-weight: 700;
-            color: var(--light-bg) !important;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            transition: all 0.3s;
-            text-decoration: none;
+
+            .detail-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
-        .navbar-brand:hover {
-            transform: scale(1.05);
+        @media (max-width: 480px) {
+            .header-container {
+                padding: 0.75rem;
+            }
+
+            .brand {
+                font-size: 1.3rem;
+                gap: 0.5rem;
+            }
+
+            .brand-icon {
+                font-size: 1.6rem;
+            }
+
+            .nav-links {
+                flex-direction: column;
+                width: 100%;
+                gap: 0.5rem;
+            }
+
+            .btn-nav {
+                width: 100%;
+                justify-content: center;
+                padding: 0.75rem;
+                font-size: 0.8125rem;
+            }
+
+            .hero-banner {
+                padding: 2rem 1rem;
+            }
+
+            .hero-banner h1 {
+                font-size: 1.8rem;
+            }
+
+            .hero-banner p {
+                font-size: 0.95rem;
+            }
+
+            .hero-label {
+                font-size: 0.8125rem;
+                padding: 0.4rem 1rem;
+            }
+
+            .container {
+                padding: 1.5rem 0.75rem;
+            }
+
+            .filters {
+                padding: 1.25rem;
+            }
+
+            .filters-header {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .filters-title {
+                font-size: 1.25rem;
+            }
+
+            .btn-reset {
+                width: 100%;
+            }
+
+            .results-bar {
+                padding: 1rem;
+                flex-direction: column;
+                text-align: center;
+                gap: 0.5rem;
+            }
+
+            .profiles-grid {
+                grid-template-columns: 1fr;
+                gap: 1.25rem;
+            }
+
+            .profile-image {
+                height: 280px;
+            }
+
+            .profile-content {
+                padding: 1.25rem;
+            }
+
+            .profile-name {
+                font-size: 1.25rem;
+            }
+
+            .info-item {
+                padding: 0.625rem;
+            }
+
+            .info-icon {
+                font-size: 1rem;
+                width: 24px;
+            }
+
+            .info-text {
+                font-size: 0.8125rem;
+            }
+
+            .btn-action {
+                padding: 0.75rem 0.5rem;
+                font-size: 0.8125rem;
+                gap: 0.375rem;
+            }
+
+            .modal-header {
+                padding: 1.5rem 1rem;
+            }
+
+            .modal-body {
+                padding: 1.25rem;
+            }
+
+            .modal-footer {
+                padding: 1.25rem;
+                flex-direction: column-reverse;
+            }
+
+            .btn-modal {
+                width: 100%;
+                padding: 0.875rem 1.5rem;
+            }
+
+            .modal-title {
+                font-size: 1.75rem;
+            }
+
+            .modal-subtitle {
+                font-size: 0.95rem;
+            }
+
+            .section-title {
+                font-size: 1.25rem;
+            }
+
+            .payment-info h3 {
+                font-size: 1.125rem;
+            }
+
+            .payment-value {
+                font-size: 1.75rem;
+            }
+
+            .form-input,
+            .form-textarea {
+                font-size: 0.875rem;
+                padding: 0.875rem 1rem;
+            }
+
+            .copy-btn {
+                padding: 0.875rem 1rem;
+                font-size: 0.875rem;
+            }
+
+            .qr-code-image {
+                max-width: 250px;
+            }
+        }
+
+        @media (max-width: 360px) {
+            .hero-banner h1 {
+                font-size: 1.6rem;
+            }
+
+            .profiles-grid {
+                gap: 1rem;
+            }
+
+            .profile-card {
+                border-radius: 15px;
+            }
+
+            .profile-image {
+                height: 260px;
+            }
         }
     </style>
 </head>
@@ -733,21 +1348,30 @@
     <!-- Header -->
     <header class="header">
         <div class="header-container">
-            <a class="navbar-brand" href="index.html">
+            <a class="brand" href="index.html">
                 <span class="brand-icon">💝</span>
                 <span>Arrange Marriage</span>
             </a>
             <div class="nav-links">
-                <a href="index.html" class="btn-nav">🏠 Home</a>
-                <a href="Userprofile.html" class="btn-nav">👤 My Profile</a>
+                <a href="index.html" class="btn-nav">
+                    <i class="bi bi-house-fill"></i>
+                    <span>Home</span>
+                </a>
+                <a href="Userprofile.html" class="btn-nav">
+                    <i class="bi bi-person-circle"></i>
+                    <span>My Profile</span>
+                </a>
             </div>
         </div>
     </header>
 
-    <!-- Hero -->
-    <div class="hero">
-        <h1>Find Your Perfect Match</h1>
-        <p>Browse through verified profiles and connect with compatible partners</p>
+    <!-- Hero Banner -->
+    <div class="hero-banner">
+        <div class="hero-content">
+            <span class="hero-label">Verified Profiles</span>
+            <h1>Find Your Perfect Match</h1>
+            <p>Browse through verified profiles and connect with compatible partners</p>
+        </div>
     </div>
 
     <!-- Main Container -->
@@ -755,33 +1379,48 @@
         <!-- Filters -->
         <div class="filters">
             <div class="filters-header">
-                <h2 class="filters-title">🔍 Filter Profiles</h2>
-                <button class="btn-reset" onclick="resetFilters()">Reset Filters</button>
+                <h2 class="filters-title">
+                    <i class="bi bi-funnel-fill"></i>
+                    <span>Filter Profiles</span>
+                </h2>
+                <button class="btn-reset" onclick="resetFilters()">
+                    <i class="bi bi-arrow-clockwise"></i>
+                    Reset Filters
+                </button>
             </div>
             <div class="filter-grid">
                 <div class="filter-group">
-                    <label class="filter-label">Gender</label>
+                    <label class="filter-label">
+                        <i class="bi bi-gender-ambiguous"></i>
+                        Gender
+                    </label>
                     <select class="filter-select" id="filterGender" onchange="applyFilters()">
-                        <option value="">All</option>
+                        <option value="">All Genders</option>
                         <option value="Male">Male</option>
                         <option value="Female">Female</option>
                     </select>
                 </div>
                 <div class="filter-group">
-                    <label class="filter-label">Location</label>
+                    <label class="filter-label">
+                        <i class="bi bi-geo-alt-fill"></i>
+                        Location
+                    </label>
                     <input type="text" class="filter-select" id="filterLocation" placeholder="Enter city..."
                         onkeyup="applyFilters()">
                 </div>
                 <div class="filter-group">
-                    <label class="filter-label">Profession</label>
+                    <label class="filter-label">
+                        <i class="bi bi-briefcase-fill"></i>
+                        Profession
+                    </label>
                     <input type="text" class="filter-select" id="filterProfession" placeholder="Enter profession..."
                         onkeyup="applyFilters()">
                 </div>
             </div>
         </div>
 
-        <!-- Results Info -->
-        <div class="results-info">
+        <!-- Results Bar -->
+        <div class="results-bar">
             <div class="results-count">
                 Showing <span class="count-number" id="profileCount">0</span> profiles
             </div>
@@ -791,7 +1430,7 @@
         <div class="profiles-grid" id="profilesGrid">
             <div class="loading">
                 <div class="spinner"></div>
-                <p>Loading profiles...</p>
+                <p class="loading-text">Loading profiles...</p>
             </div>
         </div>
     </div>
@@ -807,42 +1446,119 @@
             <div class="modal-body" id="modalBody"></div>
             <div class="modal-footer">
                 <button class="btn-modal btn-modal-secondary" onclick="closeModal('profileModal')">Close</button>
-                <button class="btn-modal btn-modal-primary" onclick="openInquiryModal()">Send Inquiry</button>
+                <button class="btn-modal btn-modal-primary" onclick="openPaymentModal()" id="requestBtn">Request
+                    Profile</button>
             </div>
         </div>
     </div>
 
-    <!-- Inquiry Modal -->
-    <div class="modal" id="inquiryModal">
+    <!-- Payment Modal -->
+    <div class="modal" id="paymentModal">
         <div class="modal-content">
             <div class="modal-header">
-                <button class="modal-close" onclick="closeModal('inquiryModal')">×</button>
-                <h2 class="modal-title">Send Inquiry</h2>
-                <p class="modal-subtitle">Contact admin about this profile</p>
+                <button class="modal-close" onclick="closeModal('paymentModal')">×</button>
+                <h2 class="modal-title">🔐 Request Full Access</h2>
+                <p class="modal-subtitle">Complete payment to view full profile details</p>
             </div>
             <div class="modal-body">
-                <form class="inquiry-form" id="inquiryForm" onsubmit="submitInquiry(event)">
+                <!-- Payment Info -->
+                <div class="payment-info">
+                    <h3><i class="bi bi-credit-card-fill"></i> Payment Information</h3>
+                    <div class="payment-detail">
+                        <span class="payment-label">Access Fee:</span>
+                        <span class="payment-value" id="displayAccessFee">₹500</span>
+                    </div>
+                    <p style="font-size: 0.95rem; opacity: 0.9; line-height: 1.8;">
+                        ✅ One-time payment for full profile access<br>
+                        ✅ Includes contact details, family info, and more<br>
+                        ✅ Access granted after admin verification
+                    </p>
+                </div>
+
+                <!-- Payment Method Selector -->
+                <div class="payment-method-selector">
+                    <div class="method-option selected" onclick="selectPaymentMethod('UPI')" id="methodUPI">
+                        <div class="method-icon">📱</div>
+                        <div style="font-weight: 700;">UPI Payment</div>
+                    </div>
+                    <div class="method-option" onclick="selectPaymentMethod('QR Code')" id="methodQR">
+                        <div class="method-icon">📲</div>
+                        <div style="font-weight: 700;">Scan QR Code</div>
+                    </div>
+                </div>
+
+                <!-- UPI Section -->
+                <div id="upiSection" style="display: block;">
+                    <div class="form-group">
+                        <label class="form-label">Pay to UPI ID:</label>
+                        <div style="display: flex; align-items: center;">
+                            <input type="text" class="form-input" id="displayUpiId" value="example@upi" readonly
+                                style="flex: 1;">
+                            <button type="button" class="copy-btn" onclick="copyToClipboard('displayUpiId')">
+                                <i class="bi bi-clipboard"></i> Copy
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- QR Section -->
+                <div id="qrSection" style="display: none;">
+                    <div class="qr-code-container">
+                        <h4>Scan QR Code to Pay</h4>
+                        <img id="displayQrCode" class="qr-code-image" src="" alt="Payment QR Code">
+                        <p style="color: var(--neutral);">Scan using any UPI app</p>
+                    </div>
+                </div>
+
+                <!-- Payment Form -->
+                <form id="paymentForm" onsubmit="submitPaymentRequest(event)">
                     <div class="form-group">
                         <label class="form-label">Your Name *</label>
-                        <input type="text" class="form-input" id="inquiryName" required>
+                        <input type="text" class="form-input" id="paymentName" required>
                     </div>
+
                     <div class="form-group">
                         <label class="form-label">Your Email *</label>
-                        <input type="email" class="form-input" id="inquiryEmail" required>
+                        <input type="email" class="form-input" id="paymentEmail" required>
                     </div>
+
                     <div class="form-group">
                         <label class="form-label">Your Phone *</label>
-                        <input type="tel" class="form-input" id="inquiryPhone" required>
+                        <input type="tel" class="form-input" id="paymentPhone" required>
                     </div>
+
                     <div class="form-group">
-                        <label class="form-label">Message *</label>
-                        <textarea class="form-textarea" id="inquiryMessage" placeholder="Write your message to admin..."
-                            required></textarea>
+                        <label class="form-label">Amount Paid (₹) *</label>
+                        <input type="number" class="form-input" id="paymentAmount" required min="1">
                     </div>
-                    <div class="modal-footer" style="padding: 0; background: none;">
+
+                    <div class="form-group">
+                        <label class="form-label">UTR/Transaction Number *</label>
+                        <input type="text" class="form-input" id="paymentUTR" placeholder="Enter 12-digit UTR number"
+                            required pattern="[A-Za-z0-9]{12,}" minlength="12">
+                        <small style="color: var(--neutral); font-size: 0.875rem; display: block; margin-top: 0.5rem;">
+                            Find UTR number in your payment app transaction history
+                        </small>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Payment Screenshot (Optional)</label>
+                        <input type="file" class="form-input" id="paymentScreenshot" accept="image/*">
+                        <small style="color: var(--neutral); font-size: 0.875rem; display: block; margin-top: 0.5rem;">
+                            Upload screenshot for faster verification
+                        </small>
+                    </div>
+
+                    <input type="hidden" id="selectedPaymentMethod" value="UPI">
+
+                    <div class="modal-footer" style="padding: 0; background: none; margin-top: 2rem;">
                         <button type="button" class="btn-modal btn-modal-secondary"
-                            onclick="closeModal('inquiryModal')">Cancel</button>
-                        <button type="submit" class="btn-modal btn-modal-primary">Send Inquiry</button>
+                            onclick="closeModal('paymentModal')">
+                            Cancel
+                        </button>
+                        <button type="submit" class="btn-modal btn-modal-primary">
+                            <i class="bi bi-lock-fill"></i> Submit Payment Request
+                        </button>
                     </div>
                 </form>
             </div>
@@ -853,41 +1569,54 @@
     <div class="toast-container" id="toastContainer"></div>
 
     <script>
-        // Configuration
-        const API_BASE_URL = 'https://backendweb-2-frw4.onrender.com/api';
+        const API_BASE_URL = 'http://127.0.0.1:5502/Marriage%20Bureau/login.html/api';
 
-        // Global State
         let allProfiles = [];
         let currentProfile = null;
+        let paymentSettings = null;
+        let userAccessMap = {};  // Stores profile IDs user has access to
 
-        // Initialize
         document.addEventListener('DOMContentLoaded', () => {
-            // Check authentication
             const isLoggedIn = sessionStorage.getItem('isLoggedIn') === 'true';
             if (!isLoggedIn) {
                 showToast('error', 'Not Logged In', 'Please login to view profiles');
-                setTimeout(() => {
-                    window.location.href = 'login.html';
-                }, 2000);
+                setTimeout(() => window.location.href = 'login.html', 2000);
                 return;
             }
 
-            // Pre-fill inquiry form with user data
             const userName = sessionStorage.getItem('userName') || '';
             const userEmail = sessionStorage.getItem('userEmail') || '';
-            if (userName) document.getElementById('inquiryName').value = userName;
-            if (userEmail) document.getElementById('inquiryEmail').value = userEmail;
+            if (userName) document.getElementById('paymentName').value = userName;
+            if (userEmail) document.getElementById('paymentEmail').value = userEmail;
 
-            // Load profiles
+            fetchPaymentSettings();
             fetchProfiles();
         });
 
-        // Fetch Profiles from Backend
+        async function fetchPaymentSettings() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/payment-settings`);
+                const data = await response.json();
+
+                if (data.success) {
+                    paymentSettings = data.settings;
+                    document.getElementById('displayUpiId').value = paymentSettings.upiId;
+                    document.getElementById('displayAccessFee').textContent = `₹${paymentSettings.accessFee}`;
+                    document.getElementById('paymentAmount').value = paymentSettings.accessFee;
+                    document.getElementById('displayQrCode').src = paymentSettings.qrCodeUrl;
+                }
+            } catch (error) {
+                console.error('Error fetching payment settings:', error);
+            }
+        }
+
         async function fetchProfiles() {
             const grid = document.getElementById('profilesGrid');
 
             try {
-                const response = await fetch(`${API_BASE_URL}/profiles`);
+                const response = await fetch(`${API_BASE_URL}/profiles`, {
+                    headers: { 'x-auth-token': sessionStorage.getItem('token') }
+                });
                 const data = await response.json();
 
                 allProfiles = data.profiles || data || [];
@@ -896,12 +1625,15 @@
                     grid.innerHTML = `
                         <div class="empty-state">
                             <div class="empty-icon">📭</div>
-                            <h3>No Profiles Found</h3>
-                            <p>Check back later for new profiles</p>
+                            <h3 class="empty-title">No Profiles Found</h3>
+                            <p class="empty-text">Check back later for new profiles</p>
                         </div>
                     `;
                     return;
                 }
+
+                // Fetch user's access requests to build access map
+                await fetchUserAccessMap();
 
                 renderProfiles(allProfiles);
                 loadLikedProfiles();
@@ -910,19 +1642,42 @@
                 grid.innerHTML = `
                     <div class="empty-state">
                         <div class="empty-icon">⚠️</div>
-                        <h3>Failed to Load Profiles</h3>
-                        <p>Please refresh the page or try again later</p>
+                        <h3 class="empty-title">Failed to Load Profiles</h3>
+                        <p class="empty-text">Please refresh the page or try again later</p>
                     </div>
                 `;
             }
         }
 
-        // Render Profiles
-        function renderProfiles(profiles) {
+        async function fetchUserAccessMap() {
+            try {
+                const response = await fetch(`${API_BASE_URL}/access-requests/my-requests`, {
+                    headers: { 'x-auth-token': sessionStorage.getItem('token') }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    userAccessMap = {};
+
+                    // Create map of profile IDs user has approved access to
+                    data.requests.forEach(request => {
+                        if (request.status === 'approved') {
+                            userAccessMap[request.profileId] = true;
+                        }
+                    });
+                }
+            } catch (error) {
+                console.error('Error fetching access map:', error);
+            }
+        }
+
+        async function renderProfiles(profiles) {
             const grid = document.getElementById('profilesGrid');
             grid.innerHTML = '';
 
-            profiles.forEach(profile => {
+            for (const profile of profiles) {
+                const hasAccess = userAccessMap[profile._id] || false;
+
                 const card = document.createElement('div');
                 card.className = 'profile-card-wrapper';
                 card.setAttribute('data-gender', profile.gender || '');
@@ -935,16 +1690,17 @@
                 card.innerHTML = `
                     <div class="profile-card">
                         <div class="profile-image">
-                            <img src="${imageUrl}" alt="${profile.name}">
+                            <img src="${imageUrl}" alt="${profile.name}" loading="lazy">
                             <button class="like-btn" onclick="toggleLike('${profile._id}')" data-id="${profile._id}">
                                 ❤️
                             </button>
-                            ${profile.isPremium ? '<div class="profile-badge">⭐ Premium</div>' : ''}
                             ${profile.isVerified ? '<div class="profile-badge">✓ Verified</div>' : ''}
                         </div>
                         <div class="profile-content">
-                            <h3 class="profile-name">${profile.name}</h3>
-                            <p class="profile-id">ID: ${profileId}</p>
+                            <div class="profile-header">
+                                <h3 class="profile-name">${profile.name}</h3>
+                                <p class="profile-id">ID: ${profileId}</p>
+                            </div>
                             <div class="profile-info">
                                 <div class="info-item">
                                     <span class="info-icon">👤</span>
@@ -961,37 +1717,48 @@
                             </div>
                             <div class="profile-actions">
                                 <button class="btn-action btn-view" onclick='viewProfile(${JSON.stringify(profile).replace(/'/g, "&apos;")})'>
-                                    👁️ View Details
+                                    <i class="bi bi-eye-fill"></i> View Details
                                 </button>
-                                <button class="btn-action btn-inquiry" onclick='openInquiryForProfile(${JSON.stringify(profile).replace(/'/g, "&apos;")})'>
-                                    💌 Inquire
-                                </button>
+                                ${!hasAccess
+                        ? `<button class="btn-action btn-inquiry" onclick='openPaymentForProfile(${JSON.stringify(profile).replace(/'/g, "&apos;")})'>
+                                        <i class="bi bi-lock-fill"></i> Get Access
+                                    </button>`
+                        : `<button class="btn-action btn-inquiry" disabled>
+                                        <i class="bi bi-check-circle-fill"></i> Access Granted
+                                    </button>`
+                    }
                             </div>
                         </div>
                     </div>
                 `;
 
                 grid.appendChild(card);
-            });
+            }
 
             document.getElementById('profileCount').textContent = profiles.length;
         }
 
-        // View Profile Details
-        function viewProfile(profile) {
+        async function viewProfile(profile) {
             currentProfile = profile;
+            const hasAccess = userAccessMap[profile._id] || false;
 
             document.getElementById('modalProfileName').textContent = profile.name;
             document.getElementById('modalProfileSubtitle').textContent = `${profile.age} Years • ${profile.profession || 'N/A'} • ${profile.location}`;
 
-            const bodyHTML = `
+            let bodyHTML = `
                 <div class="detail-section">
-                    <h3 class="section-title">📝 About</h3>
-                    <p>${profile.bio || 'No description provided.'}</p>
+                    <h3 class="section-title">
+                        <i class="bi bi-file-text-fill"></i>
+                        <span>About</span>
+                    </h3>
+                    <p style="line-height: 1.8; color: var(--neutral);">${profile.bio || 'No description provided.'}</p>
                 </div>
                 
                 <div class="detail-section">
-                    <h3 class="section-title">ℹ️ Profile Details</h3>
+                    <h3 class="section-title">
+                        <i class="bi bi-info-circle-fill"></i>
+                        <span>Basic Details</span>
+                    </h3>
                     <div class="detail-grid">
                         <div class="detail-item">
                             <div class="detail-label">Gender</div>
@@ -1017,19 +1784,118 @@
                             <div class="detail-label">Profession</div>
                             <div class="detail-value">${profile.profession || 'N/A'}</div>
                         </div>
-                        <div class="detail-item">
-                            <div class="detail-label">Income</div>
-                            <div class="detail-value">${profile.income || 'Not Disclosed'}</div>
-                        </div>
                     </div>
                 </div>
             `;
 
+            if (!hasAccess) {
+                bodyHTML += `
+                    <div class="detail-section">
+                        <div class="locked-section">
+                            <div class="locked-icon">🔒</div>
+                            <h3>Unlock Full Profile Access</h3>
+                            <p>View contact details, family information, caste, gotra, and more personal details</p>
+                            <button class="btn-modal btn-modal-primary" onclick="openPaymentModal()">
+                                <i class="bi bi-credit-card-fill"></i> Pay ₹${paymentSettings?.accessFee || 500} to Unlock
+                            </button>
+                        </div>
+                    </div>
+                `;
+            } else {
+                bodyHTML += `
+                    <div class="detail-section">
+                        <h3 class="section-title">
+                            <i class="bi bi-check-circle-fill"></i>
+                            <span>Premium Details</span>
+                        </h3>
+                        <div class="detail-grid">
+                            <div class="detail-item">
+                                <div class="detail-label">Income</div>
+                                <div class="detail-value">${profile.income || 'Not Disclosed'}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Caste</div>
+                                <div class="detail-value">${profile.caste || 'Not Disclosed'}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Gotra</div>
+                                <div class="detail-value">${profile.gotra || 'Not Disclosed'}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Religion</div>
+                                <div class="detail-value">${profile.religion || 'Not Disclosed'}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Mother Tongue</div>
+                                <div class="detail-value">${profile.motherTongue || 'Not Disclosed'}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Marital Status</div>
+                                <div class="detail-value">${profile.maritalStatus || 'Not Disclosed'}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="detail-section">
+                        <h3 class="section-title">
+                            <i class="bi bi-telephone-fill"></i>
+                            <span>Contact Information</span>
+                        </h3>
+                        <div class="detail-grid">
+                            <div class="detail-item">
+                                <div class="detail-label">Phone Number</div>
+                                <div class="detail-value">${profile.phoneNumber || 'Not Disclosed'}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">WhatsApp Number</div>
+                                <div class="detail-value">${profile.whatsappNumber || 'Not Disclosed'}</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="detail-section">
+                        <h3 class="section-title">
+                            <i class="bi bi-people-fill"></i>
+                            <span>Family Information</span>
+                        </h3>
+                        <div class="detail-grid">
+                            <div class="detail-item">
+                                <div class="detail-label">Family Type</div>
+                                <div class="detail-value">${profile.familyType || 'Not Disclosed'}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Father's Occupation</div>
+                                <div class="detail-value">${profile.fatherOccupation || 'Not Disclosed'}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Mother's Occupation</div>
+                                <div class="detail-value">${profile.motherOccupation || 'Not Disclosed'}</div>
+                            </div>
+                            <div class="detail-item">
+                                <div class="detail-label">Siblings</div>
+                                <div class="detail-value">${profile.siblings || 'Not Disclosed'}</div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }
+
             document.getElementById('modalBody').innerHTML = bodyHTML;
+
+            const requestBtn = document.getElementById('requestBtn');
+            if (hasAccess) {
+                requestBtn.innerHTML = '<i class="bi bi-check-circle-fill"></i> Access Granted';
+                requestBtn.style.background = 'var(--success)';
+                requestBtn.disabled = true;
+            } else {
+                requestBtn.innerHTML = '<i class="bi bi-lock-fill"></i> Request Profile';
+                requestBtn.style.background = '';
+                requestBtn.disabled = false;
+            }
+
             openModal('profileModal');
         }
 
-        // Toggle Like
         function toggleLike(profileId) {
             let liked = JSON.parse(localStorage.getItem('likedProfiles') || '[]');
             const btn = document.querySelector(`.like-btn[data-id="${profileId}"]`);
@@ -1047,7 +1913,6 @@
             localStorage.setItem('likedProfiles', JSON.stringify(liked));
         }
 
-        // Load Liked Profiles
         function loadLikedProfiles() {
             const liked = JSON.parse(localStorage.getItem('likedProfiles') || '[]');
             liked.forEach(id => {
@@ -1056,19 +1921,64 @@
             });
         }
 
-        // Open Inquiry Modal
-        function openInquiryForProfile(profile) {
+        function openPaymentForProfile(profile) {
             currentProfile = profile;
-            openModal('inquiryModal');
+            openPaymentModal();
         }
 
-        function openInquiryModal() {
+        function openPaymentModal() {
             closeModal('profileModal');
-            openModal('inquiryModal');
+
+            if (!paymentSettings || !currentProfile) {
+                showToast('error', 'Error', 'Payment settings not loaded');
+                return;
+            }
+
+            document.getElementById('paymentForm').reset();
+            const userName = sessionStorage.getItem('userName') || '';
+            const userEmail = sessionStorage.getItem('userEmail') || '';
+            if (userName) document.getElementById('paymentName').value = userName;
+            if (userEmail) document.getElementById('paymentEmail').value = userEmail;
+            document.getElementById('paymentAmount').value = paymentSettings.accessFee;
+            selectPaymentMethod('UPI');
+
+            openModal('paymentModal');
         }
 
-        // Submit Inquiry
-        async function submitInquiry(event) {
+        function selectPaymentMethod(method) {
+            document.getElementById('methodUPI').classList.remove('selected');
+            document.getElementById('methodQR').classList.remove('selected');
+
+            if (method === 'UPI') {
+                document.getElementById('methodUPI').classList.add('selected');
+                document.getElementById('upiSection').style.display = 'block';
+                document.getElementById('qrSection').style.display = 'none';
+            } else {
+                document.getElementById('methodQR').classList.add('selected');
+                document.getElementById('upiSection').style.display = 'none';
+                document.getElementById('qrSection').style.display = 'block';
+            }
+
+            document.getElementById('selectedPaymentMethod').value = method;
+        }
+
+        function copyToClipboard(elementId) {
+            const element = document.getElementById(elementId);
+            element.select();
+
+            try {
+                document.execCommand('copy');
+                showToast('success', 'Copied!', 'UPI ID copied to clipboard');
+            } catch (err) {
+                navigator.clipboard.writeText(element.value).then(() => {
+                    showToast('success', 'Copied!', 'UPI ID copied to clipboard');
+                }).catch(() => {
+                    showToast('error', 'Failed', 'Could not copy UPI ID');
+                });
+            }
+        }
+
+        async function submitPaymentRequest(event) {
             event.preventDefault();
 
             if (!currentProfile) {
@@ -1076,47 +1986,61 @@
                 return;
             }
 
-            const inquiryData = {
-                profileId: currentProfile._id,
-                profileName: currentProfile.name,
-                userName: document.getElementById('inquiryName').value,
-                userEmail: document.getElementById('inquiryEmail').value,
-                userPhone: document.getElementById('inquiryPhone').value,
-                message: document.getElementById('inquiryMessage').value
-            };
+            const formData = new FormData();
+            formData.append('profileId', currentProfile._id);
+            formData.append('profileName', currentProfile.name);
+            formData.append('userName', document.getElementById('paymentName').value);
+            formData.append('userEmail', document.getElementById('paymentEmail').value);
+            formData.append('userPhone', document.getElementById('paymentPhone').value);
+            formData.append('amountPaid', document.getElementById('paymentAmount').value);
+            formData.append('utrNumber', document.getElementById('paymentUTR').value.toUpperCase().trim());
+            formData.append('paymentMethod', document.getElementById('selectedPaymentMethod').value);
+
+            const screenshot = document.getElementById('paymentScreenshot').files[0];
+            if (screenshot) {
+                if (screenshot.size > 5 * 1024 * 1024) {
+                    showToast('error', 'File Too Large', 'Please upload a screenshot under 5MB');
+                    return;
+                }
+                formData.append('paymentProof', screenshot);
+            }
 
             try {
-                const response = await fetch(`${API_BASE_URL}/inquiries`, {
+                const submitBtn = event.target.querySelector('button[type="submit"]');
+                const originalText = submitBtn.innerHTML;
+                submitBtn.disabled = true;
+                submitBtn.innerHTML = '<i class="bi bi-hourglass-split"></i> Submitting...';
+
+                const response = await fetch(`${API_BASE_URL}/access-requests`, {
                     method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'x-auth-token': sessionStorage.getItem('token')
-                    },
-                    body: JSON.stringify(inquiryData)
+                    headers: { 'x-auth-token': sessionStorage.getItem('token') },
+                    body: formData
                 });
 
                 const data = await response.json();
 
-                if (response.ok && data.success) {
-                    showToast('success', 'Inquiry Sent!', 'Admin will contact you soon');
-                    closeModal('inquiryModal');
-                    document.getElementById('inquiryForm').reset();
+                submitBtn.disabled = false;
+                submitBtn.innerHTML = originalText;
 
-                    // Pre-fill user data again
-                    const userName = sessionStorage.getItem('userName') || '';
-                    const userEmail = sessionStorage.getItem('userEmail') || '';
-                    if (userName) document.getElementById('inquiryName').value = userName;
-                    if (userEmail) document.getElementById('inquiryEmail').value = userEmail;
+                if (response.ok && data.success) {
+                    showToast('success', 'Request Submitted!', 'Admin will verify your payment and grant access soon');
+                    closeModal('paymentModal');
+                    document.getElementById('paymentForm').reset();
+
+                    setTimeout(() => {
+                        if (confirm('Would you like to view your access requests?')) {
+                            window.location.href = 'Userprofile.html';
+                        }
+                    }, 2000);
                 } else {
-                    showToast('error', 'Error', data.msg || 'Failed to send inquiry');
+                    showToast('error', 'Error', data.msg || 'Failed to submit request');
                 }
             } catch (error) {
-                console.error('Error submitting inquiry:', error);
-                showToast('error', 'Error', 'Failed to send inquiry. Please try again.');
+                console.error('Error:', error);
+                showToast('error', 'Error', 'Failed to submit request');
             }
         }
 
-        // Apply Filters
         function applyFilters() {
             const gender = document.getElementById('filterGender').value.toLowerCase();
             const location = document.getElementById('filterLocation').value.toLowerCase();
@@ -1130,22 +2054,17 @@
                 const cardLocation = card.getAttribute('data-location').toLowerCase();
                 const cardProfession = card.getAttribute('data-profession').toLowerCase();
 
-                const matchGender = !gender || cardGender === gender;
-                const matchLocation = !location || cardLocation.includes(location);
-                const matchProfession = !profession || cardProfession.includes(profession);
+                const match = (!gender || cardGender === gender) &&
+                    (!location || cardLocation.includes(location)) &&
+                    (!profession || cardProfession.includes(profession));
 
-                if (matchGender && matchLocation && matchProfession) {
-                    card.style.display = 'block';
-                    visibleCount++;
-                } else {
-                    card.style.display = 'none';
-                }
+                card.style.display = match ? 'block' : 'none';
+                if (match) visibleCount++;
             });
 
             document.getElementById('profileCount').textContent = visibleCount;
         }
 
-        // Reset Filters
         function resetFilters() {
             document.getElementById('filterGender').value = '';
             document.getElementById('filterLocation').value = '';
@@ -1154,26 +2073,22 @@
             showToast('info', 'Filters Reset', 'Showing all profiles');
         }
 
-        // Modal Functions
         function openModal(modalId) {
             document.getElementById(modalId).classList.add('active');
+            document.body.style.overflow = 'hidden';
         }
 
         function closeModal(modalId) {
             document.getElementById(modalId).classList.remove('active');
+            document.body.style.overflow = '';
         }
 
-        // Toast Notifications
         function showToast(type, title, message) {
             const container = document.getElementById('toastContainer');
             const toast = document.createElement('div');
             toast.className = `toast ${type}`;
 
-            const icons = {
-                success: '✅',
-                error: '❌',
-                info: 'ℹ️'
-            };
+            const icons = { success: '✅', error: '❌', info: 'ℹ️' };
 
             toast.innerHTML = `
                 <div class="toast-icon">${icons[type]}</div>
@@ -1188,12 +2103,22 @@
             setTimeout(() => toast.remove(), 4000);
         }
 
-        // Close modals on outside click
         window.onclick = function (event) {
             if (event.target.classList.contains('modal')) {
                 event.target.classList.remove('active');
+                document.body.style.overflow = '';
             }
         }
+
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape') {
+                const activeModal = document.querySelector('.modal.active');
+                if (activeModal) {
+                    activeModal.classList.remove('active');
+                    document.body.style.overflow = '';
+                }
+            }
+        });
     </script>
 
 </body>
